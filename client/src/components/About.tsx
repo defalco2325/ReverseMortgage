@@ -1,5 +1,5 @@
 import { CheckCircle } from "lucide-react";
-import seniorCoupleImage from "@assets/stock_images/happy_smiling_senior_40594347.jpg";
+import seniorCoupleImage from "@assets/stock_images/elegant_senior_coupl_660c6135.jpg";
 
 export default function About() {
   const benefits = [
