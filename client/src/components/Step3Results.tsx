@@ -1,8 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle, CheckCircle, Phone, Mail, ArrowLeft } from "lucide-react";
 import { formatCurrency, formatPercentage, APP_CONFIG } from "@/lib/config";
+import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 type Outcome = 'no-match' | 'private' | 'estimate';
 
@@ -156,6 +158,29 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
   }
 
   // Full Estimate (62+)
+  // Calculate chart data
+  const mortgagePayoff = data.existingBalance || 0;
+  const availableAtClosing = (data.netProceeds || 0) * 0.1; // 10% available at closing
+  const availableAt12Months = (data.netProceeds || 0) * 0.4; // 40% at 12 months
+  const equityReserve = (data.homeValue || 0) - (data.principalLimit || 0);
+
+  const pieChartData = [
+    { name: 'Mortgage Payoff', value: mortgagePayoff, color: '#EAB308' },
+    { name: 'Available at 12 Months', value: availableAt12Months, color: '#84CC16' },
+    { name: 'Available at Closing', value: availableAtClosing, color: '#22C55E' },
+    { name: 'Equity Reserve', value: equityReserve, color: '#1e293b' },
+  ];
+
+  // Projected credit line growth data
+  const currentAge = data.effectiveAge;
+  const lineChartData = [
+    { age: `Age ${currentAge}`, value: data.netProceeds || 0 },
+    { age: `Age ${currentAge + 5}`, value: ((data.netProceeds || 0) * 1.35) },
+    { age: `Age ${currentAge + 10}`, value: ((data.netProceeds || 0) * 1.82) },
+    { age: `Age ${currentAge + 15}`, value: ((data.netProceeds || 0) * 2.46) },
+    { age: `Age ${currentAge + 20}`, value: ((data.netProceeds || 0) * 3.32) },
+  ];
+
   return (
     <div className="space-y-6" data-testid="results-estimate">
       <Card className="p-8 border-l-4 border-l-chart-4">
@@ -198,37 +223,128 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </Card>
 
-            <div className="bg-card/50 rounded-xl p-6 space-y-3">
-              <h4 className="font-semibold text-lg">What Happens Next?</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>A licensed reverse mortgage specialist will contact you within 24 hours</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>Review your personalized options and ask any questions</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>Complete your application with guidance every step of the way</span>
-                </li>
-              </ul>
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <Button asChild className="flex-1" data-testid="button-call-estimate">
-                  <a href={APP_CONFIG.PHONE_CTA}>
-                    <Phone className="mr-2 h-4 w-4" />
-                    Call {APP_CONFIG.PHONE_DISPLAY}
-                  </a>
-                </Button>
-                <Button variant="secondary" className="flex-1" data-testid="button-email-estimate">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Email Questions
-                </Button>
+      {/* Charts Section */}
+      <Card className="p-8">
+        <div className="text-center mb-6">
+          <h3 className="text-2xl font-bold text-primary mb-2">Choose the option that's right for you.</h3>
+          <p className="text-muted-foreground">
+            Based on the value of your home, you may be eligible for the{' '}
+            <span className="font-semibold">Traditional FHA HECM</span> or the{' '}
+            <span className="font-semibold">Longbridge Platinum Fixed</span> or{' '}
+            <span className="font-semibold">Platinum Line of Credit</span> reverse mortgage.
+          </p>
+          <Button className="mt-4" data-testid="button-compare-options">
+            COMPARE YOUR OPTIONS →
+          </Button>
+        </div>
+
+        <Tabs defaultValue="traditional" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="traditional">TRADITIONAL HECM</TabsTrigger>
+            <TabsTrigger value="platinum">PLATINUM FIXED</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="traditional" className="space-y-8">
+            {/* Pie Chart */}
+            <div className="bg-card/50 rounded-xl p-6">
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart>
+                  <Pie
+                    data={pieChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {pieChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="flex flex-wrap justify-center gap-4 mt-4">
+                {pieChartData.map((entry, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: entry.color }} />
+                    <span className="text-sm text-muted-foreground">
+                      {entry.name} {formatCurrency(entry.value)}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+
+            {/* Line Chart */}
+            <div className="bg-card/50 rounded-xl p-6">
+              <h4 className="text-xl font-bold mb-4 text-center">Projected Credit Line Growth</h4>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart data={lineChartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="age" stroke="#6b7280" />
+                  <YAxis stroke="#6b7280" tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#84cc16" 
+                    strokeWidth={3}
+                    dot={{ fill: '#1e293b', r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+              <p className="text-sm text-muted-foreground mt-4 text-center">
+                Estimate based on current and forward interest rates and margin from current HECM pricing. 
+                A Reverse Mortgage Consultant will provide an in-depth quote with more exact numbers and details.
+              </p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="platinum" className="space-y-8">
+            <div className="bg-card/50 rounded-xl p-8 text-center">
+              <p className="text-muted-foreground">
+                Platinum Fixed option details and charts would be displayed here based on your specific scenario.
+                Contact our specialists for personalized Platinum Fixed illustrations.
+              </p>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </Card>
+
+      {/* Next Steps Card */}
+      <Card className="p-8 bg-card/50">
+        <h4 className="font-semibold text-lg mb-3">What Happens Next?</h4>
+        <ul className="space-y-2 text-sm text-muted-foreground mb-4">
+          <li className="flex items-start gap-2">
+            <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+            <span>A licensed reverse mortgage specialist will contact you within 24 hours</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+            <span>Review your personalized options and ask any questions</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+            <span>Complete your application with guidance every step of the way</span>
+          </li>
+        </ul>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button asChild className="flex-1" data-testid="button-call-estimate">
+            <a href={APP_CONFIG.PHONE_CTA}>
+              <Phone className="mr-2 h-4 w-4" />
+              Call {APP_CONFIG.PHONE_DISPLAY}
+            </a>
+          </Button>
+          <Button variant="secondary" className="flex-1" data-testid="button-email-estimate">
+            <Mail className="mr-2 h-4 w-4" />
+            Email Questions
+          </Button>
         </div>
       </Card>
 
