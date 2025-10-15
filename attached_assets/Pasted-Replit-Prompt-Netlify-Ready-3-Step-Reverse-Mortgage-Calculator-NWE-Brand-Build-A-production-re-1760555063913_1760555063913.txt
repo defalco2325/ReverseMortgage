@@ -1,0 +1,109 @@
+Replit Prompt — Netlify-Ready 3-Step Reverse Mortgage Calculator (NWE Brand)
+
+Build: A production-ready, mobile-first React + Vite + Tailwind app for a 3-step Reverse Mortgage Calculator with NWE branding. Must be deployable on Netlify with zero manual tweaks.
+
+Netlify requirements (must implement)
+
+netlify.toml with:
+
+SPA redirect:
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+
+Security headers (apply to /*): X-Frame-Options=DENY, X-Content-Type-Options=nosniff, Referrer-Policy=no-referrer-when-downgrade, Permissions-Policy=geolocation=(), camera=(), microphone=(), Strict-Transport-Security: max-age=63072000; includeSubDomains; preload.
+
+Cache headers for static assets in /assets/* with long TTL.
+
+Functions (serverless) in netlify/functions:
+
+lead-intake.js: POST endpoint that receives the full form payload + computed estimate; if WEBHOOK_URL env var is set, forward JSON to it; otherwise store to Netlify logs and return 200. Include basic CORS for POST and a simple honeypot check (_botField).
+
+Return shape: { ok: true } on success; { ok: false, error } on failure.
+
+Environment variables (document in README and reference in code):
+
+WEBHOOK_URL (optional CRM/Zapier/Sheets endpoint)
+
+PHONE_CTA (default tel string, e.g., tel:+1-800-000-0000)
+
+NMLS_ID (string for footer)
+
+BRAND_NAME="Nationwide Equities" (used in titles/meta)
+
+Build & deploy config:
+
+Build command: npm run build
+
+Publish directory: dist
+
+Include a README section: “Deploy on Netlify” with steps:
+
+Push repo → “New site from Git” → select repo.
+
+Set env vars above.
+
+Confirm build command and publish dir.
+
+Enable Functions (auto-detected).
+
+Trigger deploy & test / and a hard refresh to confirm SPA routing.
+
+Optional Netlify Forms (switchable):
+
+Provide a boolean USE_NETLIFY_FORMS in code (default false).
+
+If true, include a hidden <form name="calculator-lead" netlify> with fields mirrored from Step 2 + a JSON estimate field; on submit, post to both Netlify Forms and lead-intake function (best-effort).
+
+Product spec (same as before; keep concise)
+
+Steps:
+
+Home Value*, Age*, Existing Balance*, Younger Spouse Age (opt)
+
+Reason*, First/Last*, Address*, City*, State*, ZIP*, Phone*, Email
+
+Outcome: No Match, Private (55–61), or Successful Estimate with stats (Home Value, Existing Balance, Principal Limit, Net Proceeds).
+
+PLF model (illustrative, replaceable):
+
+effectiveAge = min(applicantAge, youngerSpouseAge if provided)
+
+<55 → No Match
+
+55–61: PLF = 0.20 + (age−55)*0.01 (0.20–0.26), show Private panel
+
+≥62: PLF = 0.26 + (age−62)*0.012 (cap 0.60), show estimate
+
+gross = homeValue * PLF; net = max(0, gross − existingBalance)
+
+Submission flow: On “Calculate,” POST JSON {step1, step2, estimate, meta} to /api/lead-intake (Netlify function). If success, show Step 3 as usual. Do not block UI on webhook failures; show a non-intrusive toast if it fails.
+
+Accessibility & UX: Proper labels, aria- states, keyboard nav; input masks for currency; disable CTAs until valid; visible focus rings.
+
+Branding (NWE)
+
+Primary: #0B3A6E; Hover #1E5AA7; Accent #2E8AE6; dark surfaces from Slate 900/800/700; text Slate 100/200.
+
+Tone: professional, trusted, modern; rounded-2xl cards; clean progress bar (1/3, 2/3, 3/3).
+
+Footer: “100% Secure Data • Terms of Use • Privacy Notice • Equal Housing Lender • NMLS #<NMLS_ID>”.
+
+Deliverables / acceptance
+
+Repo runs with npm i && npm run dev; builds to dist/.
+
+netlify.toml present; Functions work on Netlify.
+
+README includes deploy instructions, env vars, where to edit PLF & legal copy.
+
+Lighthouse mobile passes (lean bundle, no giant deps).
+
+All text and config are centralized for easy edits.
+
+Build exactly as specified, optimized for Netlify deployment.
+
+ChatGPT can make mistakes. Check important info.
