@@ -26,7 +26,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
   return (
     <nav className="sticky top-0 z-50 bg-white backdrop-blur-sm border-b border-gray-200 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex-shrink-0">
             <button
@@ -37,7 +37,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
               <img 
                 src={logoImage} 
                 alt={APP_CONFIG.BRAND_NAME}
-                className="h-14 w-auto"
+                className="h-28 w-auto"
               />
             </button>
           </div>
