@@ -37,7 +37,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
               <img 
                 src={logoImage} 
                 alt={APP_CONFIG.BRAND_NAME}
-                className="h-28 w-auto"
+                className="h-[95px] w-auto"
               />
             </button>
           </div>

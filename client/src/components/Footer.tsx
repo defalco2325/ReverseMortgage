@@ -12,7 +12,7 @@ export default function Footer() {
             <img 
               src={logoImage} 
               alt={APP_CONFIG.BRAND_NAME}
-              className="h-32 w-auto"
+              className="h-[109px] w-auto"
             />
           </div>
           <p className="text-gray-600 mb-4">
