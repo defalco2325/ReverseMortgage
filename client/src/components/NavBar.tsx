@@ -24,9 +24,9 @@ export default function NavBar({ onNavigate }: NavBarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-secondary/95 backdrop-blur-sm border-b border-border shadow-lg">
+    <nav className="sticky top-0 z-50 bg-white backdrop-blur-sm border-b border-gray-200 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <button
@@ -37,7 +37,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
               <img 
                 src={logoImage} 
                 alt={APP_CONFIG.BRAND_NAME}
-                className="h-10 w-auto"
+                className="h-14 w-auto"
               />
             </button>
           </div>
@@ -48,7 +48,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
               <button
                 key={link.section}
                 onClick={() => handleNavClick(link.section)}
-                className="px-4 py-2 text-sm font-medium text-foreground hover-elevate rounded-md transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover-elevate rounded-md transition-colors"
                 data-testid={`link-${link.section}`}
               >
                 {link.label}
@@ -73,6 +73,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               data-testid="button-mobile-menu"
+              className="text-gray-700"
             >
               {mobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -86,13 +87,13 @@ export default function NavBar({ onNavigate }: NavBarProps) {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-secondary border-t border-border">
+        <div className="md:hidden bg-white border-t border-gray-200">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navLinks.map((link) => (
               <button
                 key={link.section}
                 onClick={() => handleNavClick(link.section)}
-                className="block w-full text-left px-3 py-2 text-base font-medium text-foreground hover-elevate rounded-md transition-colors"
+                className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover-elevate rounded-md transition-colors"
                 data-testid={`link-mobile-${link.section}`}
               >
                 {link.label}
