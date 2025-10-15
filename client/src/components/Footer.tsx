@@ -4,7 +4,7 @@ import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.png";
 
 export default function Footer() {
   return (
-    <footer id="footer" className="w-full py-12 px-4 border-t border-border bg-secondary" data-testid="footer">
+    <footer id="footer" className="w-full py-12 px-4 border-t border-gray-200 bg-white" data-testid="footer">
       <div className="max-w-7xl mx-auto">
         {/* Logo and Company Info */}
         <div className="text-center mb-8">
@@ -15,11 +15,11 @@ export default function Footer() {
               className="h-16 w-auto"
             />
           </div>
-          <p className="text-muted-foreground mb-4">
+          <p className="text-gray-600 mb-4">
             Helping homeowners unlock their home equity since 2003
           </p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 text-sm text-muted-foreground">
-            <a href={APP_CONFIG.PHONE_CTA} className="hover-elevate px-2 py-1 rounded font-medium">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 text-sm text-gray-600">
+            <a href={APP_CONFIG.PHONE_CTA} className="hover-elevate px-2 py-1 rounded font-medium text-gray-700">
               {APP_CONFIG.PHONE_DISPLAY}
             </a>
             <span className="hidden sm:inline">•</span>
@@ -29,21 +29,21 @@ export default function Footer() {
 
         {/* Legal Links */}
         <div className="flex flex-wrap justify-center items-center gap-4 mb-8 text-sm">
-          <a href="#" className="text-muted-foreground hover-elevate px-2 py-1 rounded transition-colors">
+          <a href="#" className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
             Terms of Use
           </a>
-          <span className="text-border">•</span>
-          <a href="#" className="text-muted-foreground hover-elevate px-2 py-1 rounded transition-colors">
+          <span className="text-gray-400">•</span>
+          <a href="#" className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
             Privacy Notice
           </a>
-          <span className="text-border">•</span>
-          <a href="#" className="text-muted-foreground hover-elevate px-2 py-1 rounded transition-colors">
+          <span className="text-gray-400">•</span>
+          <a href="#" className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
             Licensing
           </a>
         </div>
 
         {/* Trust Indicators */}
-        <div className="flex flex-wrap justify-center items-center gap-6 mb-8 text-xs text-muted-foreground">
+        <div className="flex flex-wrap justify-center items-center gap-6 mb-8 text-xs text-gray-600">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-primary" />
             <span>100% Secure Data</span>
@@ -55,9 +55,9 @@ export default function Footer() {
         </div>
 
         {/* Legal Disclaimer */}
-        <div className="max-w-4xl mx-auto text-center space-y-4 text-xs text-muted-foreground leading-relaxed">
+        <div className="max-w-4xl mx-auto text-center space-y-4 text-xs text-gray-600 leading-relaxed">
           <p>
-            <strong>Equal Housing Lender | Nationwide Equities Corp. | NMLS #{APP_CONFIG.NMLS_ID}</strong>
+            <strong className="text-gray-800">Equal Housing Lender | Nationwide Equities Corp. | NMLS #{APP_CONFIG.NMLS_ID}</strong>
           </p>
           <p>
             © {new Date().getFullYear()} Nationwide Equities. All Rights Reserved.
@@ -71,7 +71,7 @@ export default function Footer() {
             may vary according to the specific lender and your own circumstances. Consult a financial
             advisor and appropriate government agencies for additional details. Licensed in all 50 states.
           </p>
-          <p className="font-medium">
+          <p className="font-medium text-gray-700">
             We value your privacy. Your information is secure and will never be shared with third
             parties without your consent.
           </p>
