@@ -1,0 +1,191 @@
+Goal:
+Build a complete responsive landing page (not just a calculator) for Nationwide Equities (NWE)’s Reverse Mortgage Calculator. The site should reflect professionalism, trust, and clarity while driving form submissions through the calculator and CTAs.
+
+🧱 Stack & Setup
+
+Framework: React 18 + Vite
+
+Styling: Tailwind CSS (configure NWE color palette)
+
+Hosting: Netlify-ready
+
+Include netlify.toml with redirects and headers.
+
+Build: npm run build
+
+Publish: /dist
+
+Functions: Create /netlify/functions/lead-intake.js to handle POST requests and forward to optional webhook.
+
+SPA routing (redirects to /index.html).
+
+README.md with deployment instructions.
+
+🖥️ Page Sections (in order)
+1. Navigation Bar
+
+Sticky top bar with NWE logo (placeholder).
+
+Links: “Home”, “About”, “Calculator”, “Contact”.
+
+Button: “Speak with an Expert” (tel link).
+
+2. Hero Section
+
+Full-width banner.
+
+Headline:
+
+“Unlock the Power of Your Home Equity with Nationwide Equities.”
+
+Subheadline:
+
+“See how much you could qualify for with our simple Reverse Mortgage Calculator.”
+
+CTA Buttons:
+
+Calculate My Estimate (scrolls to calculator)
+
+Call Now (tel:+1-855-523-4326)
+
+Include background gradient from #0B3A6E to #1E5AA7, subtle animated overlay (particles or gradient shimmer).
+
+3. Trust & Credibility Row
+
+3–4 icons or badges (e.g., “A+ BBB Rated”, “NMLS #1408”, “Equal Housing Lender”, “Licensed Nationwide”).
+
+Text:
+
+“Built on a tradition of excellence and trusted by homeowners across America.”
+
+4. About Section
+
+Title: “Why Nationwide Equities?”
+
+2-column layout:
+
+Left: brief company overview (commitment, decades of experience, expertise in reverse mortgages).
+
+Right: image of smiling senior couple or modern home (placeholder asset).
+
+5. Reverse Mortgage Calculator (3 Steps)
+
+Embed the full calculator app previously specified:
+
+Step 1 → Step 2 → Step 3 (dynamic results).
+
+Full validation, transitions, and mobile responsiveness.
+
+Private vs. HECM eligibility logic (ages 55–61, 62+).
+
+Display inside a card section with rounded corners, blue header, and consistent NWE styling.
+
+6. Testimonial / Social Proof Section
+
+2–3 customer quotes or sample reviews.
+
+Headline: “See What Our Clients Say.”
+
+Each card: star rating + short testimonial + name + city/state.
+
+7. Call-to-Action Section
+
+Headline: “Your Home Equity Could Work for You.”
+
+Text:
+
+“Discover how much cash you could access. There’s no obligation, and it only takes a few minutes.”
+
+Buttons:
+
+Start My Estimate
+
+Call to Speak with an Expert
+
+8. Footer
+
+Include:
+
+NWE logo (placeholder)
+
+Address, phone, and NMLS ID
+
+Legal text: “Equal Housing Lender • NMLS #1408 • © 2025 Nationwide Equities Corp.”
+
+Links: Terms of Use, Privacy Notice, Licensing
+
+Small print: “100% Secure Data. We value your privacy.”
+
+🧩 Additional Requirements
+Brand Colors
+
+Primary: #0B3A6E
+
+Hover: #1E5AA7
+
+Accent: #2E8AE6
+
+Background: #0f172a
+
+Surfaces: #1e293b
+
+Text: #f1f5f9
+
+Typography
+
+Use system stack (Inter/Sans).
+
+Headings: bold and confident.
+
+Body: readable, light contrast.
+
+Mobile Design
+
+Sticky bottom CTA: “Start Estimate” (scrolls to calculator).
+
+Stack all sections cleanly with large tap targets.
+
+SEO & Meta
+
+<title>: “Reverse Mortgage Calculator | Nationwide Equities”
+
+<meta name="description">:
+“Find out how much you can access with a reverse mortgage from Nationwide Equities. Quick, secure, and no obligation.”
+
+Functionality
+
+On “Calculate,” submit JSON to /api/lead-intake (Netlify Function).
+
+If success, show results; if fail, show graceful fallback.
+
+Include honeypot field _botField.
+
+Footer Compliance (mandatory)
+Equal Housing Lender | Nationwide Equities Corp. | NMLS #1408
+© 2025 Nationwide Equities. All Rights Reserved.
+
+✅ Deliverables
+
+Full working repo with:
+
+/src/pages/Landing.jsx
+
+/src/components/Calculator.jsx (from prior spec)
+
+/src/components/NavBar.jsx, /Hero.jsx, /Footer.jsx, /Testimonials.jsx
+
+/netlify/functions/lead-intake.js
+
+/netlify.toml
+
+README.md (setup + Netlify deploy instructions)
+
+Runs locally: npm install && npm run dev
+
+Deploys seamlessly on Netlify (SPA redirect confirmed).
+
+Lighthouse 95+ across categories.
+
+Prompt summary to Replit:
+
+“Build me a full Netlify-ready landing page for Nationwide Equities with a 3-step reverse mortgage calculator, styled in NWE branding (deep blues, professional look). Include hero, about, testimonials, CTA, footer, and form submission via Netlify Function. The calculator logic must match reverse mortgage eligibility (55–61 private band, 62+ HECM). Deliver as a deployable Vite + React + Tailwind app with all pages and netlify.toml.”

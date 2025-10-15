@@ -1,0 +1,46 @@
+# Netlify configuration for Nationwide Equities Reverse Mortgage Calculator
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+# SPA routing - redirect all requests to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-XSS-Protection = "1; mode=block"
+
+# Cache headers for static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment variable examples (set these in Netlify UI)
+# WEBHOOK_URL - Optional CRM/Zapier/Google Sheets endpoint for lead forwarding
+# VITE_PHONE_CTA - Phone number link (e.g., tel:+1-855-523-4326)
+# VITE_PHONE_DISPLAY - Phone number display (e.g., 855-523-4326)
+# VITE_NMLS_ID - NMLS license number (e.g., 1408)
+# VITE_BRAND_NAME - Company name (e.g., Nationwide Equities)
