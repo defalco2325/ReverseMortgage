@@ -7,6 +7,7 @@ import CalculatorSection from "@/components/CalculatorSection";
 import Testimonials from "@/components/Testimonials";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import MobileBottomCTA from "@/components/MobileBottomCTA";
 
 export default function Landing() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -57,6 +58,8 @@ export default function Landing() {
       <div ref={footerRef}>
         <Footer />
       </div>
+
+      <MobileBottomCTA onScrollToCalculator={scrollToCalculator} />
     </div>
   );
 }
