@@ -1,4 +1,5 @@
 import { CheckCircle } from "lucide-react";
+import seniorCoupleImage from "@assets/stock_images/happy_smiling_senior_40594347.jpg";
 
 export default function About() {
   const benefits = [
@@ -37,16 +38,14 @@ export default function About() {
             </ul>
           </div>
 
-          {/* Right Column - Image Placeholder */}
+          {/* Right Column - Image */}
           <div className="relative">
-            <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-secondary to-muted overflow-hidden shadow-2xl">
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                <div className="text-center p-8">
-                  <Home className="h-24 w-24 mx-auto mb-4 opacity-50" />
-                  <p className="text-sm">Professional Image Placeholder</p>
-                  <p className="text-xs mt-2">Smiling senior couple or modern home</p>
-                </div>
-              </div>
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src={seniorCoupleImage}
+                alt="Happy senior couple enjoying retirement at home"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -54,6 +53,3 @@ export default function About() {
     </section>
   );
 }
-
-// Placeholder icon import
-import { Home } from "lucide-react";
