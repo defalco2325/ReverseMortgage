@@ -1,5 +1,6 @@
 import { ShieldCheck, Home } from "lucide-react";
 import { APP_CONFIG } from "@/lib/config";
+import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.png";
 
 export default function Footer() {
   return (
@@ -7,7 +8,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         {/* Logo and Company Info */}
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold text-foreground mb-2">{APP_CONFIG.BRAND_NAME}</h3>
+          <div className="flex justify-center mb-4">
+            <img 
+              src={logoImage} 
+              alt={APP_CONFIG.BRAND_NAME}
+              className="h-16 w-auto"
+            />
+          </div>
           <p className="text-muted-foreground mb-4">
             Helping homeowners unlock their home equity since 2003
           </p>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X } from "lucide-react";
 import { APP_CONFIG } from "@/lib/config";
+import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.png";
 
 interface NavBarProps {
   onNavigate: (section: string) => void;
@@ -30,10 +31,14 @@ export default function NavBar({ onNavigate }: NavBarProps) {
           <div className="flex-shrink-0">
             <button
               onClick={() => handleNavClick("hero")}
-              className="text-xl font-bold text-foreground hover-elevate px-3 py-2 rounded-md transition-colors"
+              className="hover-elevate p-2 rounded-md transition-colors"
               data-testid="link-logo"
             >
-              {APP_CONFIG.BRAND_NAME}
+              <img 
+                src={logoImage} 
+                alt={APP_CONFIG.BRAND_NAME}
+                className="h-10 w-auto"
+              />
             </button>
           </div>
 
