@@ -12,7 +12,8 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ArrowRight } from "lucide-react";
+import { Lock } from "lucide-react";
+import InfoTooltip from "./InfoTooltip";
 
 const step1Schema = z.object({
   homeValue: z.number().min(50000, "Home value must be at least $50,000"),
@@ -50,24 +51,24 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onNext)} className="space-y-6" data-testid="form-step1">
-        <div className="space-y-6">
+      <form onSubmit={form.handleSubmit(onNext)} className="space-y-4" data-testid="form-step1">
+        <div className="space-y-4">
           <FormField
             control={form.control}
             name="homeValue"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base font-semibold">
-                  Home Value <span className="text-ring">*</span>
-                </FormLabel>
-                <FormDescription className="text-sm text-muted-foreground">
-                  Estimated current market value of your home
-                </FormDescription>
+                <div className="flex items-center justify-between gap-2">
+                  <FormLabel className="text-sm font-normal text-card-foreground">
+                    Your estimated home value<span className="text-destructive">*</span>
+                  </FormLabel>
+                  <InfoTooltip content="Enter the current market value of your home. This is an estimate and will be verified during the application process." />
+                </div>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="$500,000"
-                    className="text-lg font-semibold"
+                    placeholder=""
+                    className="h-12 text-base border-input"
                     data-testid="input-homeValue"
                     value={displayCurrency(field.value)}
                     onChange={(e) => field.onChange(formatCurrencyInput(e.target.value))}
@@ -83,17 +84,17 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
             name="applicantAge"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base font-semibold">
-                  Your Age <span className="text-ring">*</span>
-                </FormLabel>
-                <FormDescription className="text-sm text-muted-foreground">
-                  Age of the youngest borrower
-                </FormDescription>
+                <div className="flex items-center justify-between gap-2">
+                  <FormLabel className="text-sm font-normal text-card-foreground">
+                    Your age<span className="text-destructive">*</span>
+                  </FormLabel>
+                  <InfoTooltip content="Age of the youngest borrower. You must be at least 55 years old to qualify for a reverse mortgage." />
+                </div>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="65"
-                    className="text-lg"
+                    placeholder=""
+                    className="h-12 text-base border-input"
                     data-testid="input-applicantAge"
                     {...field}
                     onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
@@ -109,17 +110,17 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
             name="existingBalance"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base font-semibold">
-                  Existing Mortgage Balance <span className="text-ring">*</span>
-                </FormLabel>
-                <FormDescription className="text-sm text-muted-foreground">
-                  Current balance on your mortgage (enter 0 if paid off)
-                </FormDescription>
+                <div className="flex items-center justify-between gap-2">
+                  <FormLabel className="text-sm font-normal text-card-foreground">
+                    Existing mortgage balance<span className="text-destructive">*</span>
+                  </FormLabel>
+                  <InfoTooltip content="Current outstanding balance on your mortgage. Enter $0 if your home is paid off." />
+                </div>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="$150,000"
-                    className="text-lg font-semibold"
+                    placeholder=""
+                    className="h-12 text-base border-input"
                     data-testid="input-existingBalance"
                     value={displayCurrency(field.value)}
                     onChange={(e) => field.onChange(formatCurrencyInput(e.target.value))}
@@ -135,17 +136,17 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
             name="spouseAge"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-base font-semibold">
-                  Spouse/Partner Age (Optional)
-                </FormLabel>
-                <FormDescription className="text-sm text-muted-foreground">
-                  If applicable, enter your spouse or partner's age
-                </FormDescription>
+                <div className="flex items-center justify-between gap-2">
+                  <FormLabel className="text-sm font-normal text-card-foreground">
+                    Age of younger spouse on title
+                  </FormLabel>
+                  <InfoTooltip content="If your spouse or partner will be on the title and is younger than you, enter their age here. This may affect your loan amount." />
+                </div>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="62"
-                    className="text-lg"
+                    placeholder=""
+                    className="h-12 text-base border-input"
                     data-testid="input-spouseAge"
                     {...field}
                     onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
@@ -157,14 +158,23 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
           />
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full text-base font-semibold h-12"
-          data-testid="button-next-step1"
-        >
-          Continue to Contact Information
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
+        <div className="pt-2">
+          <p className="text-xs text-muted-foreground mb-4">
+            Co-op properties, rental homes, and rental apartments do not typically qualify. Contact a specialist for more information.
+          </p>
+          <p className="text-xs text-muted-foreground mb-6">
+            <span className="text-destructive">*</span> Indicates required field
+          </p>
+          
+          <Button 
+            type="submit" 
+            className="w-full text-base font-semibold h-12 uppercase tracking-wide"
+            data-testid="button-next-step1"
+          >
+            <Lock className="mr-2 h-4 w-4" />
+            Get Started
+          </Button>
+        </div>
       </form>
     </Form>
   );

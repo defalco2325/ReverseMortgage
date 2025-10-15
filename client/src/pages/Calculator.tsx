@@ -80,30 +80,17 @@ export default function Calculator() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="flex-1">
-        <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
-              {APP_CONFIG.BRAND_NAME}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Reverse Mortgage Calculator
-            </p>
-          </div>
-
+        <div className="max-w-4xl mx-auto px-4 py-8 md:py-16">
           {/* Progress */}
-          <ProgressIndicator currentStep={currentStep} totalSteps={3} />
+          {currentStep > 1 && <ProgressIndicator currentStep={currentStep} totalSteps={3} />}
 
           {/* Main Card */}
-          <Card className="p-6 md:p-8 shadow-2xl">
+          <Card className="p-8 md:p-12 shadow-2xl border-t-4 border-t-primary">
             {currentStep === 1 && (
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                  Property & Age Information
+                <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-card-foreground">
+                  Reverse Mortgage Calculator
                 </h2>
-                <p className="text-muted-foreground mb-6">
-                  Let's start with some basic information about your property and age.
-                </p>
                 <Step1Form onNext={handleStep1Next} initialData={step1Data || undefined} />
               </div>
             )}
