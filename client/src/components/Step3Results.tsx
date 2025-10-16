@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertCircle, CheckCircle, Phone, Mail, ArrowLeft } from "lucide-react";
+import { AlertCircle, CheckCircle, Phone, ArrowLeft } from "lucide-react";
 import { formatCurrency, formatPercentage, APP_CONFIG } from "@/lib/config";
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
@@ -45,16 +45,12 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                   While you may not qualify at this time, our team can discuss alternative financing options 
                   that may be suitable for your situation.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <Button asChild className="flex-1" data-testid="button-call-no-match">
+                <div className="pt-2">
+                  <Button asChild className="w-full sm:w-auto" data-testid="button-call-no-match">
                     <a href={APP_CONFIG.PHONE_CTA}>
                       <Phone className="mr-2 h-4 w-4" />
                       Call {APP_CONFIG.PHONE_DISPLAY}
                     </a>
-                  </Button>
-                  <Button variant="secondary" className="flex-1" data-testid="button-email-no-match">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Email Us
                   </Button>
                 </div>
               </div>
@@ -127,16 +123,12 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                   Our private lending specialists will contact you to discuss terms, rates, and complete your application. 
                   This program offers flexible options tailored to your unique situation.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <Button asChild className="flex-1" data-testid="button-call-private">
+                <div className="pt-2">
+                  <Button asChild className="w-full sm:w-auto" data-testid="button-call-private">
                     <a href={APP_CONFIG.PHONE_CTA}>
                       <Phone className="mr-2 h-4 w-4" />
                       Call {APP_CONFIG.PHONE_DISPLAY}
                     </a>
-                  </Button>
-                  <Button variant="secondary" className="flex-1" data-testid="button-email-private">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Email Us
                   </Button>
                 </div>
               </div>
@@ -334,16 +326,12 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
             <span>Complete your application with guidance every step of the way</span>
           </li>
         </ul>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button asChild className="flex-1" data-testid="button-call-estimate">
+        <div>
+          <Button asChild className="w-full sm:w-auto" data-testid="button-call-estimate">
             <a href={APP_CONFIG.PHONE_CTA}>
               <Phone className="mr-2 h-4 w-4" />
               Call {APP_CONFIG.PHONE_DISPLAY}
             </a>
-          </Button>
-          <Button variant="secondary" className="flex-1" data-testid="button-email-estimate">
-            <Mail className="mr-2 h-4 w-4" />
-            Email Questions
           </Button>
         </div>
       </Card>
