@@ -33,19 +33,19 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
   const form = useForm<Step1Data>({
     resolver: zodResolver(step1Schema),
     defaultValues: {
-      homeValue: initialData?.homeValue || 0,
-      applicantAge: initialData?.applicantAge || 0,
-      existingBalance: initialData?.existingBalance || 0,
-      spouseAge: initialData?.spouseAge || 0,
+      homeValue: initialData?.homeValue || undefined,
+      applicantAge: initialData?.applicantAge || undefined,
+      existingBalance: initialData?.existingBalance || undefined,
+      spouseAge: initialData?.spouseAge || undefined,
     },
   });
 
   const formatCurrencyInput = (value: string) => {
     const numbers = value.replace(/\D/g, "");
-    return numbers ? parseInt(numbers, 10) : 0;
+    return numbers ? parseInt(numbers, 10) : undefined;
   };
 
-  const displayCurrency = (value: number) => {
+  const displayCurrency = (value: number | undefined) => {
     return value ? `$${value.toLocaleString()}` : "";
   };
 
@@ -96,8 +96,8 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
                     placeholder=""
                     className="h-12 text-base border-input"
                     data-testid="input-applicantAge"
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -148,8 +148,8 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
                     placeholder=""
                     className="h-12 text-base border-input"
                     data-testid="input-spouseAge"
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                   />
                 </FormControl>
                 <FormMessage />
