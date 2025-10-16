@@ -52,8 +52,10 @@ Preferred communication style: Simple, everyday language.
 **Lead Processing**: Serverless function architecture designed for Netlify Functions deployment (`netlify/functions/lead-intake.js`):
 - POST endpoint for form submission
 - Honeypot field validation for bot detection
-- Optional webhook forwarding to external CRM/automation tools
+- Email notifications configured to send to: Salesmanager@nwecorp.com (not displayed on website)
+- Optional webhook forwarding to external CRM/automation tools (Zapier, Make, etc.)
 - CORS configuration for secure cross-origin requests
+- Detailed deployment guide available in DEPLOYMENT.md
 
 ### Design System
 
@@ -81,11 +83,18 @@ Preferred communication style: Simple, everyday language.
 - Functions directory configuration
 
 **Environment Variables**:
-- `VITE_BRAND_NAME`: Customizable brand name
-- `VITE_PHONE_CTA`: Contact phone number
-- `VITE_NMLS_ID`: NMLS licensing number
-- `WEBHOOK_URL`: Optional CRM integration endpoint
+- `VITE_BRAND_NAME`: Customizable brand name (default: "Nationwide Equities")
+- `VITE_PHONE_CTA`: Contact phone number link (default: "tel:+1-866-312-4370")
+- `VITE_PHONE_DISPLAY`: Display phone number (default: "866-312-4370")
+- `VITE_NMLS_ID`: NMLS licensing number (default: "1408")
+- `WEBHOOK_URL`: Optional CRM integration endpoint (Zapier/Make webhook to email Salesmanager@nwecorp.com)
 - `DATABASE_URL`: PostgreSQL connection (configured but not actively used)
+
+**Lead Notification Setup**:
+- Form submissions are configured to be sent to Salesmanager@nwecorp.com
+- Email address is NOT displayed anywhere on the website (secure backend configuration only)
+- Implementation via Netlify webhook → Zapier/Make → Email service
+- See DEPLOYMENT.md for detailed setup instructions
 
 ## External Dependencies
 
