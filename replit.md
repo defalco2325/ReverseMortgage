@@ -36,10 +36,10 @@ Preferred communication style: Simple, everyday language.
 
 **Eligibility Tiers**:
 - Under 55: No Match (ineligible)
-- Ages 55-61: Private Lending (PLF 0.20-0.26)
-- Ages 62+: HECM Estimate (PLF 0.26-0.60 capped)
+- Ages 55-61: Private Lending (PLF 35.99%-37.54%)
+- Ages 62+: HECM Estimate (PLF 37.83%-57.33% capped at age 88+)
 
-**PLF (Principal Limit Factor) Calculation**: Age-based progressive calculation with different increment rates for private lending vs. HECM products. The system accounts for spouse age (using the younger age when applicable) and applies the appropriate PLF model to determine principal limits and net proceeds.
+**PLF (Principal Limit Factor) Calculation**: Uses an exact age-based lookup table with precise PLF values for each age from 55-100. The system accounts for spouse age (using the younger age when applicable) and retrieves the corresponding PLF from the table to determine principal limits and net proceeds. The PLF table is based on industry-standard HECM calculation rates, starting at 35.99% for age 55 and capping at 57.33% for ages 88 and above.
 
 ### Backend Architecture
 

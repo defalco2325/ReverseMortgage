@@ -14,19 +14,61 @@ export const APP_CONFIG = {
   USE_NETLIFY_FORMS: false,
 };
 
-// PLF (Principal Limit Factor) calculation model
+// PLF (Principal Limit Factor) lookup table based on age
+export const PLF_TABLE: Record<number, number> = {
+  55: 0.3599,
+  56: 0.3618,
+  57: 0.3638,
+  58: 0.3657,
+  59: 0.3696,
+  60: 0.3725,
+  61: 0.3754,
+  62: 0.3783,
+  63: 0.3822,
+  64: 0.3870,
+  65: 0.3919,
+  66: 0.3967,
+  67: 0.4026,
+  68: 0.4074,
+  69: 0.4132,
+  70: 0.4200,
+  71: 0.4268,
+  72: 0.4346,
+  73: 0.4433,
+  74: 0.4530,
+  75: 0.4627,
+  76: 0.4734,
+  77: 0.4811,
+  78: 0.4839,
+  79: 0.4888,
+  80: 0.5088,
+  81: 0.5189,
+  82: 0.5492,
+  83: 0.5529,
+  84: 0.5626,
+  85: 0.5635,
+  86: 0.5685,
+  87: 0.5704,
+  88: 0.5733,
+  89: 0.5733,
+  90: 0.5733,
+  91: 0.5733,
+  92: 0.5733,
+  93: 0.5733,
+  94: 0.5733,
+  95: 0.5733,
+  96: 0.5733,
+  97: 0.5733,
+  98: 0.5733,
+  99: 0.5733,
+  100: 0.5733,
+};
+
+// PLF configuration
 export const PLF_CONFIG = {
-  // Age thresholds
-  MIN_AGE_PRIVATE: 55,
+  MIN_AGE: 55,
   MIN_AGE_ESTIMATE: 62,
-  
-  // PLF rates
-  BASE_RATE_PRIVATE: 0.20,
-  INCREMENT_PRIVATE: 0.01,
-  
-  BASE_RATE_ESTIMATE: 0.26,
-  INCREMENT_ESTIMATE: 0.012,
-  MAX_PLF: 0.60,
+  MAX_PLF: 0.5733,
 };
 
 // Calculate PLF and estimate
@@ -39,22 +81,22 @@ export function calculateEstimate(
   const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
   
   // No Match: Under 55
-  if (effectiveAge < PLF_CONFIG.MIN_AGE_PRIVATE) {
+  if (effectiveAge < PLF_CONFIG.MIN_AGE) {
     return {
       outcome: 'no-match' as const,
       effectiveAge,
     };
   }
   
+  // Get PLF from table (cap at 100 for ages over 100)
+  const ageForLookup = Math.min(effectiveAge, 100);
+  const plf = PLF_TABLE[ageForLookup] || PLF_CONFIG.MAX_PLF;
+  
+  const principalLimit = homeValue * plf;
+  const netProceeds = Math.max(0, principalLimit - existingBalance);
+  
   // Private: 55-61
   if (effectiveAge < PLF_CONFIG.MIN_AGE_ESTIMATE) {
-    const plf = Math.min(
-      PLF_CONFIG.BASE_RATE_PRIVATE + (effectiveAge - PLF_CONFIG.MIN_AGE_PRIVATE) * PLF_CONFIG.INCREMENT_PRIVATE,
-      PLF_CONFIG.MAX_PLF
-    );
-    const principalLimit = homeValue * plf;
-    const netProceeds = Math.max(0, principalLimit - existingBalance);
-    
     return {
       outcome: 'private' as const,
       effectiveAge,
@@ -67,13 +109,6 @@ export function calculateEstimate(
   }
   
   // Full Estimate: 62+
-  const plf = Math.min(
-    PLF_CONFIG.BASE_RATE_ESTIMATE + (effectiveAge - PLF_CONFIG.MIN_AGE_ESTIMATE) * PLF_CONFIG.INCREMENT_ESTIMATE,
-    PLF_CONFIG.MAX_PLF
-  );
-  const principalLimit = homeValue * plf;
-  const netProceeds = Math.max(0, principalLimit - existingBalance);
-  
   return {
     outcome: 'estimate' as const,
     effectiveAge,
