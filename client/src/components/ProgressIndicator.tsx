@@ -24,9 +24,9 @@ export default function ProgressIndicator({ currentStep, totalSteps }: ProgressI
                 data-testid={`progress-step-${step}`}
               >
                 {step < currentStep ? (
-                  <Check className="w-5 h-5" />
+                  <Check className="w-5 h-5 flex-shrink-0" strokeWidth={3} />
                 ) : (
-                  step
+                  <span className="flex items-center justify-center">{step}</span>
                 )}
               </div>
               <span className="text-xs mt-2 text-muted-foreground hidden sm:block">
