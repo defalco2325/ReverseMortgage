@@ -123,6 +123,59 @@ export function TermsOfUseModal({ children }: { children: React.ReactNode }) {
   );
 }
 
+export function LicensingModal({ children }: { children: React.ReactNode }) {
+  return (
+    <LegalModal
+      trigger={children}
+      title="Licensing Information"
+      content={
+        <div className="space-y-6 text-sm">
+          <h3 className="text-lg font-bold">State Licensing Information</h3>
+          
+          <p>
+            <strong>Nationwide Equities Corp.</strong><br />
+            NMLS #1408<br />
+            225 Brae Blvd. Suite 202<br />
+            Park Ridge, NJ 07656<br />
+            Phone: 866-312-4370
+          </p>
+
+          <p>
+            Nationwide Equities is a licensed mortgage lender. We are licensed to conduct business in all 50 states and the District of Columbia.
+          </p>
+
+          <h3 className="text-lg font-bold mt-6">NMLS Consumer Access</h3>
+          <p>
+            You can verify our licensing information through the Nationwide Multistate Licensing System (NMLS) Consumer Access website at{' '}
+            <a href="http://www.nmlsconsumeraccess.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              www.nmlsconsumeraccess.org
+            </a>
+          </p>
+
+          <h3 className="text-lg font-bold mt-6">Equal Housing Lender</h3>
+          <p>
+            Nationwide Equities is an Equal Housing Lender. We do not discriminate on the basis of race, color, religion, national origin, sex, handicap, or familial status.
+          </p>
+
+          <h3 className="text-lg font-bold mt-6">State-Specific Licenses</h3>
+          <p>
+            For detailed state-specific licensing information, please visit our licensing page or contact us at 866-312-4370.
+          </p>
+
+          <h3 className="text-lg font-bold mt-6">Regulatory Information</h3>
+          <p>
+            This material has not been reviewed, approved or issued by HUD, FHA or any government agency. The company is not affiliated with or acting on behalf of or at the direction of HUD/FHA or any other government agency.
+          </p>
+
+          <p className="mt-6">
+            <strong>Important Notice:</strong> A reverse mortgage increases the principal mortgage loan amount and decreases home equity (it is a negative amortization loan). These materials are not from HUD or FHA and the document was not approved by HUD, FHA or any Government Agency.
+          </p>
+        </div>
+      }
+    />
+  );
+}
+
 export function PrivacyNoticeModal({ children }: { children: React.ReactNode }) {
   return (
     <LegalModal
@@ -199,7 +252,7 @@ export function PrivacyNoticeModal({ children }: { children: React.ReactNode }) 
 
           <h3 className="text-lg font-bold mt-6">Contact Us</h3>
           <p>
-            If you have questions about this Privacy Notice or our privacy practices, please contact us at 855-523-4326 or at 225 Brae Blvd. Suite 202, Park Ridge, NJ 07656.
+            If you have questions about this Privacy Notice or our privacy practices, please contact us at 866-312-4370 or at 225 Brae Blvd. Suite 202, Park Ridge, NJ 07656.
           </p>
         </div>
       }

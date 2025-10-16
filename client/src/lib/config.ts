@@ -4,8 +4,8 @@ export const APP_CONFIG = {
   BRAND_NAME: import.meta.env.VITE_BRAND_NAME || "Nationwide Equities",
   
   // Contact
-  PHONE_CTA: import.meta.env.VITE_PHONE_CTA || "tel:+1-855-523-4326",
-  PHONE_DISPLAY: import.meta.env.VITE_PHONE_DISPLAY || "855-523-4326",
+  PHONE_CTA: import.meta.env.VITE_PHONE_CTA || "tel:+1-866-312-4370",
+  PHONE_DISPLAY: import.meta.env.VITE_PHONE_DISPLAY || "866-312-4370",
   
   // Legal
   NMLS_ID: import.meta.env.VITE_NMLS_ID || "1408",
