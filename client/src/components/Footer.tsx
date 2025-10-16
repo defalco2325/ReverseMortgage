@@ -15,6 +15,9 @@ export default function Footer() {
               className="h-[109px] w-auto"
             />
           </div>
+          <p className="text-gray-700 font-medium mb-2">
+            225 Brae Blvd. Suite 202, Park Ridge, NJ 07656
+          </p>
           <p className="text-gray-600 mb-4">
             Helping homeowners unlock their home equity since 2003
           </p>

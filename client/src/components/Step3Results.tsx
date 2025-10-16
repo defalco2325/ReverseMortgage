@@ -234,7 +234,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
           <p className="text-muted-foreground">
             Based on the value of your home, you may be eligible for the{' '}
             <span className="font-semibold">Traditional FHA HECM</span> or the{' '}
-            <span className="font-semibold">Longbridge Platinum Fixed</span> or{' '}
+            <span className="font-semibold">Nationwide Equities Platinum Fixed</span> or{' '}
             <span className="font-semibold">Platinum Line of Credit</span> reverse mortgage.
           </p>
           <Button className="mt-4" data-testid="button-compare-options">
