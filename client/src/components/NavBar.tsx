@@ -33,6 +33,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
               onClick={() => handleNavClick("hero")}
               className="hover-elevate p-2 rounded-md transition-colors"
               data-testid="link-logo"
+              aria-label={`Go to ${APP_CONFIG.BRAND_NAME} homepage`}
             >
               <img 
                 src={logoImage} 
@@ -74,6 +75,7 @@ export default function NavBar({ onNavigate }: NavBarProps) {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               data-testid="button-mobile-menu"
               className="text-gray-700"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {mobileMenuOpen ? (
                 <X className="h-6 w-6" />

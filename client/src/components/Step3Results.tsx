@@ -30,9 +30,9 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
             <AlertCircle className="w-8 h-8 text-destructive flex-shrink-0 mt-1" />
             <div className="space-y-4 flex-1">
               <div>
-                <h3 className="text-2xl font-bold mb-2">
+                <h2 className="text-2xl font-bold mb-2">
                   Not Eligible at This Time
-                </h3>
+                </h2>
                 <p className="text-muted-foreground">
                   Based on the information provided, you do not currently qualify for a traditional reverse mortgage. 
                   The minimum age requirement is 55 years old.
@@ -82,7 +82,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
             <div className="space-y-4 flex-1">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-2xl font-bold">Private Lending Option Available</h3>
+                  <h2 className="text-2xl font-bold">Private Lending Option Available</h2>
                   <Badge variant="secondary" className="text-xs">Ages 55-61</Badge>
                 </div>
                 <p className="text-muted-foreground">
@@ -181,7 +181,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
           <div className="space-y-4 flex-1">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h3 className="text-2xl font-bold">Congratulations! You Qualify</h3>
+                <h2 className="text-2xl font-bold">Congratulations! You Qualify</h2>
                 <Badge className="text-xs bg-chart-4 hover:bg-chart-4">Eligible</Badge>
               </div>
               <p className="text-muted-foreground">
@@ -222,7 +222,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
       {/* Charts Section */}
       <Card className="p-8">
         <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold text-primary mb-2">Choose the option that's right for you.</h3>
+          <h2 className="text-2xl font-bold text-primary mb-2">Choose the option that's right for you.</h2>
           <p className="text-muted-foreground">
             Based on the value of your home, you may be eligible for the{' '}
             <span className="font-semibold">Traditional FHA HECM</span> or the{' '}
