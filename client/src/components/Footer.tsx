@@ -1,6 +1,7 @@
 import { ShieldCheck, Home } from "lucide-react";
 import { APP_CONFIG } from "@/lib/config";
 import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.png";
+import { TermsOfUseModal, PrivacyNoticeModal } from "@/components/LegalModals";
 
 export default function Footer() {
   return (
@@ -32,13 +33,17 @@ export default function Footer() {
 
         {/* Legal Links */}
         <div className="flex flex-wrap justify-center items-center gap-4 mb-8 text-sm">
-          <a href="#" className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
-            Terms of Use
-          </a>
+          <TermsOfUseModal>
+            <button className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
+              Terms of Use
+            </button>
+          </TermsOfUseModal>
           <span className="text-gray-400">•</span>
-          <a href="#" className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
-            Privacy Notice
-          </a>
+          <PrivacyNoticeModal>
+            <button className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
+              Privacy Notice
+            </button>
+          </PrivacyNoticeModal>
           <span className="text-gray-400">•</span>
           <a href="#" className="text-gray-600 hover-elevate px-2 py-1 rounded transition-colors">
             Licensing
