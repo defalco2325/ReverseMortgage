@@ -234,15 +234,16 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
           </Button>
         </div>
 
-        <Tabs defaultValue="traditional" className="w-full">
+        <Tabs defaultValue="equitypower" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="traditional">TRADITIONAL HECM</TabsTrigger>
-            <TabsTrigger value="platinum">EQUITYPOWER</TabsTrigger>
+            <TabsTrigger value="equitypower">EQUITYPOWER</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="traditional" className="space-y-8">
-            {/* Pie Chart */}
+          <TabsContent value="equitypower" className="space-y-8">
+            {/* Pie Chart - EquityPower */}
             <div className="bg-card/50 rounded-xl p-6">
+              <h4 className="text-xl font-bold mb-4 text-center">EquityPower Fund Distribution</h4>
               <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
                   <Pie
@@ -273,9 +274,9 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
               </div>
             </div>
 
-            {/* Line Chart */}
+            {/* Line Chart - EquityPower */}
             <div className="bg-card/50 rounded-xl p-6">
-              <h4 className="text-xl font-bold mb-4 text-center">Projected Credit Line Growth</h4>
+              <h4 className="text-xl font-bold mb-4 text-center">EquityPower Credit Line Growth</h4>
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={lineChartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -292,19 +293,93 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                 </LineChart>
               </ResponsiveContainer>
               <p className="text-sm text-muted-foreground mt-4 text-center">
-                Estimate based on current and forward interest rates and margin from current HECM pricing. 
-                A Reverse Mortgage Consultant will provide an in-depth quote with more exact numbers and details.
+                EquityPower projections based on current rates and your PLF of {formatPercentage(data.plf || 0)}. 
+                A Reverse Mortgage Consultant will provide detailed EquityPower illustrations.
               </p>
+            </div>
+
+            <div className="bg-card/50 rounded-xl p-6">
+              <h4 className="text-lg font-bold mb-3">EquityPower Benefits</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Flexible access to your home equity</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>No monthly mortgage payments required</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Credit line grows over time</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Retain ownership of your home</span>
+                </li>
+              </ul>
             </div>
           </TabsContent>
 
-          <TabsContent value="platinum" className="space-y-8">
-            <div className="bg-card/50 rounded-xl p-8 text-center">
-              <p className="text-muted-foreground">
-                EquityPower option details and charts would be displayed here based on your specific scenario.
-                Contact our specialists for personalized EquityPower illustrations.
-              </p>
+          <TabsContent value="traditional" className="space-y-8">
+            <div className="bg-card/50 rounded-xl p-6">
+              <h4 className="text-xl font-bold mb-4 text-center">Traditional HECM Fund Distribution</h4>
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart>
+                  <Pie
+                    data={pieChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {pieChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="flex flex-wrap justify-center gap-4 mt-4">
+                {pieChartData.map((entry, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: entry.color }} />
+                    <span className="text-sm text-muted-foreground">
+                      {entry.name} {formatCurrency(entry.value)}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
+
+            <div className="bg-card/50 rounded-xl p-6">
+              <h4 className="text-lg font-bold mb-3">Traditional HECM Features</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>FHA-insured reverse mortgage</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Government-backed program</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Established lending limits and guidelines</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Non-recourse loan protection</span>
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-sm text-muted-foreground text-center">
+              Traditional HECM estimate based on current FHA guidelines and interest rates. 
+              A Reverse Mortgage Consultant will provide an in-depth quote with exact numbers.
+            </p>
           </TabsContent>
         </Tabs>
       </Card>
