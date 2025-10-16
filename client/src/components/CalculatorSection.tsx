@@ -109,21 +109,19 @@ export default function CalculatorSection() {
       data-testid="section-calculator"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Reverse Mortgage Calculator
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-8">
             Get your personalized estimate in 3 simple steps
           </p>
-        </div>
-
-        {/* Progress */}
-        {currentStep > 1 && (
-          <div className="mb-8">
+          
+          {/* Progress */}
+          <div className="flex justify-center">
             <ProgressIndicator currentStep={currentStep} totalSteps={3} />
           </div>
-        )}
+        </div>
 
         {/* Main Card */}
         <Card className="p-8 md:p-12 shadow-2xl border-t-4 border-t-primary">

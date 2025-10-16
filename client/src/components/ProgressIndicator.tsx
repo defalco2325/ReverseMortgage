@@ -8,7 +8,7 @@ interface ProgressIndicatorProps {
 
 export default function ProgressIndicator({ currentStep, totalSteps }: ProgressIndicatorProps) {
   return (
-    <div className="w-full mb-8" data-testid="progress-indicator">
+    <div className="w-full" data-testid="progress-indicator">
       <div className="flex items-center justify-between max-w-md mx-auto">
         {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step, index) => (
           <div key={step} className="flex items-center flex-1">
