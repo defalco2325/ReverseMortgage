@@ -234,8 +234,8 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
           <p className="text-muted-foreground">
             Based on the value of your home, you may be eligible for the{' '}
             <span className="font-semibold">Traditional FHA HECM</span> or the{' '}
-            <span className="font-semibold">Nationwide Equities Platinum Fixed</span> or{' '}
-            <span className="font-semibold">Platinum Line of Credit</span> reverse mortgage.
+            <span className="font-semibold">Nationwide Equities EquityPower</span> or{' '}
+            <span className="font-semibold">EquityPower Line of Credit</span> reverse mortgage.
           </p>
           <Button className="mt-4" data-testid="button-compare-options">
             COMPARE YOUR OPTIONS →
@@ -245,7 +245,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
         <Tabs defaultValue="traditional" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="traditional">TRADITIONAL HECM</TabsTrigger>
-            <TabsTrigger value="platinum">PLATINUM FIXED</TabsTrigger>
+            <TabsTrigger value="platinum">EQUITYPOWER</TabsTrigger>
           </TabsList>
           
           <TabsContent value="traditional" className="space-y-8">
@@ -309,8 +309,8 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
           <TabsContent value="platinum" className="space-y-8">
             <div className="bg-card/50 rounded-xl p-8 text-center">
               <p className="text-muted-foreground">
-                Platinum Fixed option details and charts would be displayed here based on your specific scenario.
-                Contact our specialists for personalized Platinum Fixed illustrations.
+                EquityPower option details and charts would be displayed here based on your specific scenario.
+                Contact our specialists for personalized EquityPower illustrations.
               </p>
             </div>
           </TabsContent>
