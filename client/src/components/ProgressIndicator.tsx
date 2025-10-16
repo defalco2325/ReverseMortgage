@@ -16,7 +16,7 @@ export default function ProgressIndicator({ currentStep, totalSteps }: ProgressI
             <div className="flex flex-col items-center flex-shrink-0">
               <div
                 className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-200",
+                  "w-10 h-10 rounded-full flex items-center justify-center font-semibold text-base transition-all duration-200",
                   step < currentStep && "bg-primary text-primary-foreground",
                   step === currentStep && "bg-ring text-white ring-2 ring-ring ring-offset-2 ring-offset-background",
                   step > currentStep && "bg-secondary text-secondary-foreground border-2 border-border"
@@ -26,7 +26,7 @@ export default function ProgressIndicator({ currentStep, totalSteps }: ProgressI
                 {step < currentStep ? (
                   <Check className="w-5 h-5 flex-shrink-0" strokeWidth={3} />
                 ) : (
-                  <span className="flex items-center justify-center">{step}</span>
+                  step
                 )}
               </div>
               <span className="text-xs mt-2 text-muted-foreground hidden sm:block">
