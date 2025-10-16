@@ -236,8 +236,8 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
 
         <Tabs defaultValue="equitypower" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="traditional">TRADITIONAL HECM</TabsTrigger>
             <TabsTrigger value="equitypower">EQUITYPOWER</TabsTrigger>
+            <TabsTrigger value="traditional">TRADITIONAL HECM</TabsTrigger>
           </TabsList>
           
           <TabsContent value="equitypower" className="space-y-8">
