@@ -1,0 +1,7 @@
+# Robots.txt for Nationwide Equities Reverse Mortgage Calculator
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.nwecorp.com/sitemap.xml
