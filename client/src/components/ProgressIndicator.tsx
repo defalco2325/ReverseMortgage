@@ -8,12 +8,12 @@ interface ProgressIndicatorProps {
 
 export default function ProgressIndicator({ currentStep, totalSteps }: ProgressIndicatorProps) {
   return (
-    <div className="w-full" data-testid="progress-indicator">
-      <div className="flex items-center justify-between max-w-md mx-auto">
+    <div className="w-full flex justify-center" data-testid="progress-indicator">
+      <div className="flex items-center">
         {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step, index) => (
-          <div key={step} className="flex items-center flex-1">
+          <div key={step} className="flex items-center">
             {/* Step Circle */}
-            <div className="flex flex-col items-center flex-shrink-0">
+            <div className="flex flex-col items-center">
               <div
                 className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center font-semibold text-base transition-all duration-200",
@@ -36,7 +36,7 @@ export default function ProgressIndicator({ currentStep, totalSteps }: ProgressI
             
             {/* Connecting Line */}
             {index < totalSteps - 1 && (
-              <div className="flex-1 h-0.5 mx-2 bg-border relative">
+              <div className="w-24 h-0.5 mx-4 bg-border relative">
                 <div
                   className={cn(
                     "absolute inset-y-0 left-0 bg-primary transition-all duration-300",
