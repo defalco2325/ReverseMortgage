@@ -61,9 +61,7 @@ export default function Calculator() {
       formData.append('homeValue', step1Data!.homeValue.toString());
       formData.append('applicantAge', step1Data!.applicantAge.toString());
       formData.append('existingBalance', (step1Data!.existingBalance || 0).toString());
-      if (step1Data!.spouseAge) {
-        formData.append('spouseAge', step1Data!.spouseAge.toString());
-      }
+      formData.append('spouseAge', step1Data!.spouseAge ? step1Data!.spouseAge.toString() : '');
       
       // Step 2 data
       formData.append('reason', data.reason);
