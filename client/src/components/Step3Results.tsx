@@ -152,14 +152,20 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
   // Full Estimate (62+)
   // Calculate chart data
   const mortgagePayoff = data.existingBalance || 0;
-  const availableAtClosing = (data.netProceeds || 0) * 0.1; // 10% available at closing
-  const availableAt12Months = (data.netProceeds || 0) * 0.4; // 40% at 12 months
   const equityReserve = (data.homeValue || 0) - (data.principalLimit || 0);
 
-  const pieChartData = [
+  // EquityPower pie chart data - no line of credit, so all proceeds available at closing
+  const equityPowerPieData = [
     { name: 'Mortgage Payoff', value: mortgagePayoff, color: '#EAB308' },
-    { name: 'Available at 12 Months', value: availableAt12Months, color: '#84CC16' },
-    { name: 'Available at Closing', value: availableAtClosing, color: '#22C55E' },
+    { name: 'Available at Closing', value: (data.netProceeds || 0) * 0.5, color: '#22C55E' }, // 50% total (10% + 40%)
+    { name: 'Equity Reserve', value: equityReserve, color: '#1e293b' },
+  ];
+
+  // Traditional HECM pie chart data - includes line of credit features
+  const hecmPieData = [
+    { name: 'Mortgage Payoff', value: mortgagePayoff, color: '#EAB308' },
+    { name: 'Available at 12 Months', value: (data.netProceeds || 0) * 0.4, color: '#84CC16' },
+    { name: 'Available at Closing', value: (data.netProceeds || 0) * 0.1, color: '#22C55E' },
     { name: 'Equity Reserve', value: equityReserve, color: '#1e293b' },
   ];
 
@@ -226,8 +232,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
           <p className="text-muted-foreground">
             Based on the value of your home, you may be eligible for the{' '}
             <span className="font-semibold">Traditional FHA HECM</span> or the{' '}
-            <span className="font-semibold">Nationwide Equities EquityPower</span> or{' '}
-            <span className="font-semibold">EquityPower Line of Credit</span> reverse mortgage.
+            <span className="font-semibold">Nationwide Equities EquityPower</span> reverse mortgage.
           </p>
           <Button className="mt-4" data-testid="button-compare-options">
             COMPARE YOUR OPTIONS →
@@ -247,7 +252,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
               <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
                   <Pie
-                    data={pieChartData}
+                    data={equityPowerPieData}
                     cx="50%"
                     cy="50%"
                     labelLine={false}
@@ -255,7 +260,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {pieChartData.map((entry, index) => (
+                    {equityPowerPieData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -263,7 +268,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                 </PieChart>
               </ResponsiveContainer>
               <div className="flex flex-wrap justify-center gap-4 mt-4">
-                {pieChartData.map((entry, index) => (
+                {equityPowerPieData.map((entry, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded" style={{ backgroundColor: entry.color }} />
                     <span className="text-sm text-muted-foreground">
@@ -274,9 +279,65 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
               </div>
             </div>
 
-            {/* Line Chart - EquityPower */}
             <div className="bg-card/50 rounded-xl p-6">
-              <h4 className="text-xl font-bold mb-4 text-center">EquityPower Credit Line Growth</h4>
+              <h4 className="text-lg font-bold mb-3">EquityPower Benefits</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Flexible access to your home equity</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>No monthly mortgage payments required</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Retain ownership of your home</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                  <span>Competitive rates and terms</span>
+                </li>
+              </ul>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="traditional" className="space-y-8">
+            <div className="bg-card/50 rounded-xl p-6">
+              <h4 className="text-xl font-bold mb-4 text-center">Traditional HECM Fund Distribution</h4>
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart>
+                  <Pie
+                    data={hecmPieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {hecmPieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="flex flex-wrap justify-center gap-4 mt-4">
+                {hecmPieData.map((entry, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: entry.color }} />
+                    <span className="text-sm text-muted-foreground">
+                      {entry.name} {formatCurrency(entry.value)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Line Chart - Traditional HECM Credit Line Growth */}
+            <div className="bg-card/50 rounded-xl p-6">
+              <h4 className="text-xl font-bold mb-4 text-center">Traditional HECM Credit Line Growth</h4>
               <ResponsiveContainer width="100%" height={350}>
                 <LineChart data={lineChartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -293,65 +354,9 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                 </LineChart>
               </ResponsiveContainer>
               <p className="text-sm text-muted-foreground mt-4 text-center">
-                EquityPower projections based on current rates and your PLF of {formatPercentage(data.plf || 0)}. 
-                A Reverse Mortgage Consultant will provide detailed EquityPower illustrations.
+                Traditional HECM credit line growth projections based on current rates and your PLF of {formatPercentage(data.plf || 0)}. 
+                A Reverse Mortgage Consultant will provide detailed HECM illustrations.
               </p>
-            </div>
-
-            <div className="bg-card/50 rounded-xl p-6">
-              <h4 className="text-lg font-bold mb-3">EquityPower Benefits</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>Flexible access to your home equity</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>No monthly mortgage payments required</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>Credit line grows over time</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>Retain ownership of your home</span>
-                </li>
-              </ul>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="traditional" className="space-y-8">
-            <div className="bg-card/50 rounded-xl p-6">
-              <h4 className="text-xl font-bold mb-4 text-center">Traditional HECM Fund Distribution</h4>
-              <ResponsiveContainer width="100%" height={400}>
-                <PieChart>
-                  <Pie
-                    data={pieChartData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={120}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {pieChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="flex flex-wrap justify-center gap-4 mt-4">
-                {pieChartData.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded" style={{ backgroundColor: entry.color }} />
-                    <span className="text-sm text-muted-foreground">
-                      {entry.name} {formatCurrency(entry.value)}
-                    </span>
-                  </div>
-                ))}
-              </div>
             </div>
 
             <div className="bg-card/50 rounded-xl p-6">
@@ -367,7 +372,7 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
-                  <span>Established lending limits and guidelines</span>
+                  <span>Credit line grows over time</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
