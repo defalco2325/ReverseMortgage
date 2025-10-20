@@ -46,14 +46,14 @@ export default function ComparisonTable({ open, onOpenChange, data }: Comparison
             <tbody>
               {/* Lending Limit */}
               <tr className="bg-card">
-                <td className="p-4 font-medium border border-border">
-                  Lending Limit<sup className="text-xs">1</sup>
+                <td className="p-4 font-medium border border-border" aria-label="Lending Limit">
+                  Lending Limit<sup className="text-xs" aria-hidden="true">1</sup>
                 </td>
-                <td className="p-4 text-center border border-border">
-                  Up to HECM loan limit<sup className="text-xs">2</sup>
+                <td className="p-4 text-center border border-border" aria-label="Up to HECM loan limit">
+                  Up to HECM loan limit<sup className="text-xs" aria-hidden="true">2</sup>
                 </td>
-                <td className="p-4 text-center border border-border">
-                  Up to {formatCurrency(4000000)}<sup className="text-xs">2,3</sup>
+                <td className="p-4 text-center border border-border" aria-label="Up to $4,000,000">
+                  Up to {formatCurrency(4000000)}<sup className="text-xs" aria-hidden="true">2,3</sup>
                 </td>
               </tr>
 
@@ -70,8 +70,8 @@ export default function ComparisonTable({ open, onOpenChange, data }: Comparison
 
               {/* Estimated Proceeds Available at Closing */}
               <tr className="bg-card">
-                <td className="p-4 font-medium border border-border">
-                  Estimated proceeds available at closing<sup className="text-xs">4</sup>
+                <td className="p-4 font-medium border border-border" aria-label="Estimated proceeds available at closing">
+                  Estimated proceeds available at closing<sup className="text-xs" aria-hidden="true">4</sup>
                 </td>
                 <td className="p-4 text-center border border-border font-semibold">
                   {formatCurrency(hecmAtClosing)}
@@ -83,18 +83,18 @@ export default function ComparisonTable({ open, onOpenChange, data }: Comparison
 
               {/* Line of Credit Growth */}
               <tr className="bg-muted/30">
-                <td className="p-4 font-medium border border-border">
-                  Line of Credit growth<sup className="text-xs">1,5</sup>
+                <td className="p-4 font-medium border border-border" aria-label="Line of Credit growth">
+                  Line of Credit growth<sup className="text-xs" aria-hidden="true">1,5</sup>
                 </td>
                 <td className="p-4 text-center border border-border">
                   <div className="flex items-center justify-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-chart-4" />
+                    <CheckCircle className="w-5 h-5 text-chart-4" aria-hidden="true" />
                     <span>Yes (line of credit option only)</span>
                   </div>
                 </td>
                 <td className="p-4 text-center border border-border">
                   <div className="flex items-center justify-center gap-2">
-                    <XCircle className="w-5 h-5 text-muted-foreground" />
+                    <XCircle className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
                     <span>No</span>
                   </div>
                 </td>
@@ -104,8 +104,8 @@ export default function ComparisonTable({ open, onOpenChange, data }: Comparison
               <tr className="bg-card">
                 <td className="p-4 font-medium border border-border">Minimum Age</td>
                 <td className="p-4 text-center border border-border">62</td>
-                <td className="p-4 text-center border border-border">
-                  55<sup className="text-xs">6</sup>
+                <td className="p-4 text-center border border-border" data-testid="cell-min-age-equitypower">
+                  55<sup className="text-xs ml-px">6</sup>
                 </td>
               </tr>
 
