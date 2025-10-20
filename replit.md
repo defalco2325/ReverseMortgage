@@ -57,13 +57,16 @@ Preferred communication style: Simple, everyday language.
 
 **Storage Layer**: In-memory storage implementation with a defined interface (`IStorage`) that can be swapped for persistent storage. Currently implements basic user CRUD operations but is architected for extension.
 
-**Lead Processing**: Serverless function architecture designed for Netlify Functions deployment (`netlify/functions/lead-intake.js`):
-- POST endpoint for form submission
-- Honeypot field validation for bot detection
-- Email notifications configured to send to: IT@nwecorp.com (for testing - change to production email later, not displayed on website)
-- Optional webhook forwarding to external CRM/automation tools (Zapier, Make, etc.)
-- CORS configuration for secure cross-origin requests
-- Detailed deployment guide available in DEPLOYMENT.md
+**Lead Processing**: Netlify Forms integration with zero backend code required:
+- Form name: "contact" 
+- Hidden HTML form in `client/index.html` for build-time detection by Netlify
+- React form in `Step2Form.tsx` with `data-netlify="true"` and `data-netlify-honeypot="_botField"`
+- Submission handler in `Calculator.tsx` POSTs to "/" with `application/x-www-form-urlencoded` encoding
+- All form fields include: Step 1 data (homeValue, applicantAge, existingBalance, spouseAge), Step 2 data (reason, firstName, lastName, address, city, state, zipCode, phone, email), calculated results (principalLimit, netProceeds, outcome), and honeypot field (_botField)
+- Honeypot field for bot detection (hidden from users, submitted as empty string)
+- Form submissions viewable in Netlify dashboard after deployment
+- Email notifications can be configured via Netlify Forms notification settings
+- Target email: IT@nwecorp.com (for testing - change to production email later, not displayed on website)
 
 ### Design System
 
