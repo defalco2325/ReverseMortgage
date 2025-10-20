@@ -80,6 +80,7 @@ export default function Step2Form({ onNext, onBack, initialData }: Step2FormProp
         className="space-y-6" 
         data-testid="form-step2"
         name="contact"
+        method="POST"
         data-netlify="true"
         data-netlify-honeypot="_botField"
       >

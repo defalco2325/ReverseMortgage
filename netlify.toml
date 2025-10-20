@@ -16,11 +16,12 @@
   to = "/sitemap.xml"
   status = 200
 
-# SPA routing - redirect all requests to index.html
+# SPA routing - redirect all requests to index.html (except for Netlify Forms)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
 
 # Security headers
 [[headers]]
