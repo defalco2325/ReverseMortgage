@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -5,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle, CheckCircle, Phone, ArrowLeft } from "lucide-react";
 import { formatCurrency, formatPercentage, APP_CONFIG } from "@/lib/config";
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import ComparisonTable from "./ComparisonTable";
 
 type Outcome = 'no-match' | 'private' | 'estimate';
 
@@ -22,6 +24,8 @@ interface Step3ResultsProps {
 }
 
 export default function Step3Results({ outcome, data, onRestart }: Step3ResultsProps) {
+  const [showComparison, setShowComparison] = useState(false);
+
   if (outcome === 'no-match') {
     return (
       <div className="space-y-6" data-testid="results-no-match">
@@ -234,9 +238,23 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
             <span className="font-semibold">Traditional FHA HECM</span> or the{' '}
             <span className="font-semibold">Nationwide Equities EquityPower</span> reverse mortgage.
           </p>
-          <Button className="mt-4" data-testid="button-compare-options">
+          <Button 
+            className="mt-4" 
+            data-testid="button-compare-options"
+            onClick={() => setShowComparison(true)}
+          >
             COMPARE YOUR OPTIONS →
           </Button>
+          
+          <ComparisonTable
+            open={showComparison}
+            onOpenChange={setShowComparison}
+            data={{
+              homeValue: data.homeValue || 0,
+              principalLimit: data.principalLimit || 0,
+              netProceeds: data.netProceeds || 0,
+            }}
+          />
         </div>
 
         <Tabs defaultValue="equitypower" className="w-full">
