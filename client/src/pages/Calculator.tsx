@@ -82,6 +82,8 @@ export default function Calculator() {
       formData.append('netProceeds', (result.netProceeds || 0).toString());
       formData.append('outcome', result.outcome);
       
+      console.log('Submitting to Netlify Forms with data:', Object.fromEntries(formData));
+      
       await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
