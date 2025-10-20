@@ -18,7 +18,7 @@ import InfoTooltip from "./InfoTooltip";
 const step1Schema = z.object({
   homeValue: z.number().min(50000, "Home value must be at least $50,000"),
   applicantAge: z.number().min(18, "Age must be at least 18").max(120, "Age must be valid"),
-  existingBalance: z.number().min(0, "Balance cannot be negative"),
+  existingBalance: z.number().min(0, "Balance cannot be negative").optional().or(z.literal(0)),
   spouseAge: z.number().min(18, "Age must be at least 18").max(120, "Age must be valid").optional().or(z.literal(0)),
 });
 
@@ -42,7 +42,8 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
 
   const formatCurrencyInput = (value: string) => {
     const numbers = value.replace(/\D/g, "");
-    return numbers ? parseInt(numbers, 10) : undefined;
+    if (numbers === "") return undefined;
+    return parseInt(numbers, 10);
   };
 
   const displayCurrency = (value: number | undefined) => {
@@ -112,7 +113,7 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
               <FormItem>
                 <div className="flex items-center justify-between gap-2">
                   <FormLabel className="text-sm font-normal text-card-foreground">
-                    Existing mortgage balance<span className="text-destructive">*</span>
+                    Existing mortgage balance
                   </FormLabel>
                   <InfoTooltip content="Current outstanding balance on your mortgage. Enter $0 if your home is paid off." />
                 </div>
@@ -138,7 +139,7 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
               <FormItem>
                 <div className="flex items-center justify-between gap-2">
                   <FormLabel className="text-sm font-normal text-card-foreground">
-                    Age of younger spouse on title
+                    Age of younger spouse on title (optional)
                   </FormLabel>
                   <InfoTooltip content="If your spouse or partner will be on the title and is younger than you, enter their age here. This may affect your loan amount." />
                 </div>
