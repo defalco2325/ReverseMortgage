@@ -53,7 +53,7 @@
 # 
 # Lead Notification Email:
 # - In Netlify Dashboard > Site settings > Functions > Environment variables
-# - Add: NOTIFICATION_EMAIL = Salesmanager@nwecorp.com
+# - Add: NOTIFICATION_EMAIL = IT@nwecorp.com (for testing - change to production email later)
 # - Or use WEBHOOK_URL for CRM integration (Zapier, Make, Google Sheets, etc.)
 #
 # Brand Configuration:
