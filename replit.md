@@ -30,6 +30,14 @@ Preferred communication style: Simple, everyday language.
 2. Contact Details (personal information, reason for inquiry)
 3. Results Display (eligibility outcome with estimates)
 
+**Product Comparison**: Interactive comparison table (ComparisonTable component) accessible via "Compare Your Options" button on results page. Features:
+- Side-by-side comparison of Traditional HECM vs EquityPower products
+- Dynamic data from calculator results (displays actual estimated proceeds)
+- Responsive dialog with scrollable content
+- Comparison categories: Lending Limits, Estimated Proceeds, Line of Credit Growth, Minimum Age, Closing Costs
+- Footnoted explanations for product features
+- Calculations: HECM shows 10% of net proceeds available at closing, EquityPower shows 50%
+
 **Routing**: Wouter for lightweight client-side routing with SPA configuration for Netlify deployment.
 
 ### Calculation Logic Architecture
