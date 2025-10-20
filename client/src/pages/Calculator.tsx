@@ -43,7 +43,7 @@ export default function Calculator() {
     const result = calculateEstimate(
       step1Data!.homeValue,
       step1Data!.applicantAge,
-      step1Data!.existingBalance,
+      step1Data!.existingBalance || 0,
       step1Data!.spouseAge || undefined
     );
 
@@ -52,21 +52,47 @@ export default function Calculator() {
     setIsCalculating(false);
     setCurrentStep(3);
 
-    // TODO: Submit to Netlify function
-    // const payload = {
-    //   step1: step1Data,
-    //   step2: data,
-    //   estimate: result,
-    //   meta: {
-    //     timestamp: new Date().toISOString(),
-    //     userAgent: navigator.userAgent,
-    //   }
-    // };
-    // await fetch('/.netlify/functions/lead-intake', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(payload),
-    // });
+    // Submit to Netlify Forms
+    try {
+      const formData = new URLSearchParams();
+      formData.append('form-name', 'contact');
+      
+      // Step 1 data
+      formData.append('homeValue', step1Data!.homeValue.toString());
+      formData.append('applicantAge', step1Data!.applicantAge.toString());
+      formData.append('existingBalance', (step1Data!.existingBalance || 0).toString());
+      if (step1Data!.spouseAge) {
+        formData.append('spouseAge', step1Data!.spouseAge.toString());
+      }
+      
+      // Step 2 data
+      formData.append('reason', data.reason);
+      formData.append('firstName', data.firstName);
+      formData.append('lastName', data.lastName);
+      formData.append('address', data.address);
+      formData.append('city', data.city);
+      formData.append('state', data.state);
+      formData.append('zipCode', data.zipCode);
+      formData.append('phone', data.phone);
+      formData.append('email', data.email);
+      formData.append('_botField', data._botField || '');
+      
+      // Results data
+      formData.append('principalLimit', (result.principalLimit || 0).toString());
+      formData.append('netProceeds', (result.netProceeds || 0).toString());
+      formData.append('outcome', result.outcome);
+      
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
+      });
+      
+      console.log('Form submitted to Netlify Forms successfully');
+    } catch (error) {
+      console.error('Error submitting to Netlify Forms:', error);
+      // Don't block the user experience if submission fails
+    }
   };
 
   const handleRestart = () => {

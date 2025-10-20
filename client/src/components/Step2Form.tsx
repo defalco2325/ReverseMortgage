@@ -75,7 +75,17 @@ export default function Step2Form({ onNext, onBack, initialData }: Step2FormProp
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onNext)} className="space-y-6" data-testid="form-step2">
+      <form 
+        onSubmit={form.handleSubmit(onNext)} 
+        className="space-y-6" 
+        data-testid="form-step2"
+        name="contact"
+        data-netlify="true"
+        data-netlify-honeypot="_botField"
+      >
+        {/* Hidden field for Netlify Forms */}
+        <input type="hidden" name="form-name" value="contact" />
+        
         {/* Honeypot field - hidden from users */}
         <input
           type="text"
@@ -260,6 +270,7 @@ export default function Step2Form({ onNext, onBack, initialData }: Step2FormProp
                       type="tel"
                       placeholder="(555) 123-4567"
                       data-testid="input-phone"
+                      {...field}
                       value={displayPhone(field.value)}
                       onChange={(e) => field.onChange(formatPhoneInput(e.target.value))}
                     />

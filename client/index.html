@@ -17,6 +17,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- Hidden form for Netlify Forms detection at build time -->
+    <form name="contact" netlify netlify-honeypot="_botField" hidden>
+      <input type="text" name="reason" />
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="text" name="address" />
+      <input type="text" name="city" />
+      <input type="text" name="state" />
+      <input type="text" name="zipCode" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <input type="number" name="homeValue" />
+      <input type="number" name="applicantAge" />
+      <input type="number" name="spouseAge" />
+      <input type="number" name="existingBalance" />
+      <input type="number" name="principalLimit" />
+      <input type="number" name="netProceeds" />
+      <input type="text" name="outcome" />
+      <input type="text" name="_botField" />
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
