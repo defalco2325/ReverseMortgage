@@ -113,9 +113,9 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
               <FormItem>
                 <div className="flex items-center justify-between gap-2">
                   <FormLabel className="text-sm font-normal text-card-foreground">
-                    Existing mortgage balance
+                    Existing mortgage balance (If applicable)
                   </FormLabel>
-                  <InfoTooltip content="Current outstanding balance on your mortgage. Enter $0 if your home is paid off." />
+                  <InfoTooltip content="Current outstanding balance on your mortgage. Leave blank if your home is paid off." />
                 </div>
                 <FormControl>
                   <Input
