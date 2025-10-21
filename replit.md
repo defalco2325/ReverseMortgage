@@ -70,9 +70,9 @@ Preferred communication style: Simple, everyday language.
   - Lower PLFs than HECM for ages 90+ (capped at 57.33% vs HECM's 71.6%)
 
 **Calculation Functions**:
-- `calculateHECMEstimate()`: Uses HECM PLF table for Traditional HECM calculations
-- `calculateEquityPowerEstimate()`: Uses EquityPower PLF table for proprietary product calculations
-- `calculateEstimate()`: Legacy function defaulting to HECM table for backwards compatibility
+- `calculateEstimate()`: Main calculator function using EquityPower PLF table (displays on results page)
+- `calculateHECMEstimate()`: Uses HECM PLF table for Traditional HECM calculations (comparison table only)
+- `calculateEquityPowerEstimate()`: Uses EquityPower PLF table for proprietary product calculations (comparison table only)
 
 **Calculation Formula** (applies to both products):
 - Principal Limit = Home Value × PLF

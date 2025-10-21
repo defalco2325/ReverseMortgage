@@ -130,7 +130,7 @@ export const PLF_CONFIG = {
   EQUITYPOWER_MAX_PLF: 0.5733, // EquityPower PLF table maximum (ages 89-100)
 };
 
-// Calculate PLF and estimate
+// Calculate PLF and estimate (now uses EquityPower by default)
 export function calculateEstimate(
   homeValue: number,
   applicantAge: number,
@@ -150,9 +150,9 @@ export function calculateEstimate(
     };
   }
   
-  // Get PLF from table (cap at 100 for ages over 100)
+  // Get PLF from EquityPower table (cap at 100 for ages over 100)
   const ageForLookup = Math.min(effectiveAge, 100);
-  const plf = PLF_TABLE[ageForLookup] || PLF_CONFIG.HECM_MAX_PLF;
+  const plf = EQUITYPOWER_PLF_TABLE[ageForLookup] || PLF_CONFIG.EQUITYPOWER_MAX_PLF;
   
   const principalLimit = homeValue * plf;
   const netProceeds = Math.max(0, principalLimit - balance);
