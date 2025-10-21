@@ -112,7 +112,7 @@ export default function ComparisonTable({ open, onOpenChange, data }: Comparison
               {/* Closing Costs */}
               <tr className="bg-muted/30">
                 <td className="p-4 font-medium border border-border">Closing Costs</td>
-                <td colSpan={2} className="p-4 border border-border text-sm text-muted-foreground">
+                <td colSpan={2} className="p-4 border border-border text-sm text-card-foreground">
                   Closing costs can vary depending on the loan program you choose. 
                   Please contact one of our consultants to see which program best fits your needs.
                 </td>
