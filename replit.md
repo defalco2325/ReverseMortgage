@@ -30,15 +30,16 @@ Preferred communication style: Simple, everyday language.
 2. Contact Details (personal information, reason for inquiry)
 3. Results Display (eligibility outcome with estimates)
 
-**Product Comparison**: Interactive comparison table (ComparisonTable component) accessible via "Compare Your Options" button on results page. Features:
-- Side-by-side comparison of Traditional HECM vs EquityPower products
+**Product Comparison**: Interactive comparison features include:
+- **Interactive Tabs on Results Page**: EquityPower and Traditional HECM tabs dynamically update Principal Limit and Net Proceeds values when clicked, allowing real-time comparison
+- **Comparison Dialog**: Accessible via "Compare Your Options" button, shows detailed side-by-side comparison table (ComparisonTable component)
 - **Separate PLF calculations**: Each product uses its own PLF table to show different estimated proceeds
 - Real-time calculations based on user's age, home value, and existing balance
 - Responsive dialog with scrollable content
 - Comparison categories: Lending Limits, Estimated Proceeds Available at Closing, Line of Credit Growth, Minimum Age, Closing Costs
 - Footnoted explanations for product features
 - Distribution differences: HECM shows 10% of net proceeds available at closing, EquityPower shows 50%
-- EquityPower typically shows higher total proceeds for ages 55-88 due to higher PLF values
+- EquityPower typically shows higher total proceeds for ages 55-88 due to higher PLF values (e.g., Age 70: EquityPower $420K vs HECM $415K)
 
 **Routing**: Wouter for lightweight client-side routing with SPA configuration for Netlify deployment.
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle, CheckCircle, Phone, ArrowLeft } from "lucide-react";
-import { formatCurrency, formatPercentage, APP_CONFIG } from "@/lib/config";
+import { formatCurrency, formatPercentage, APP_CONFIG, calculateHECMEstimate, calculateEquityPowerEstimate } from "@/lib/config";
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import ComparisonTable from "./ComparisonTable";
 
@@ -27,6 +27,7 @@ interface Step3ResultsProps {
 
 export default function Step3Results({ outcome, data, applicantAge, spouseAge, onRestart }: Step3ResultsProps) {
   const [showComparison, setShowComparison] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<'equitypower' | 'traditional'>('equitypower');
 
   if (outcome === 'no-match') {
     return (
@@ -156,33 +157,53 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
   }
 
   // Full Estimate (62+)
+  // Calculate both EquityPower and HECM estimates for comparison
+  const equityPowerResult = calculateEquityPowerEstimate(
+    data.homeValue || 0,
+    applicantAge,
+    data.existingBalance || 0,
+    spouseAge
+  );
+  
+  const hecmResult = calculateHECMEstimate(
+    data.homeValue || 0,
+    applicantAge,
+    data.existingBalance || 0,
+    spouseAge
+  );
+  
+  // Use the selected product's data for display
+  const displayData = selectedProduct === 'equitypower' ? equityPowerResult : hecmResult;
+  const displayPrincipalLimit = displayData.principalLimit || 0;
+  const displayNetProceeds = displayData.netProceeds || 0;
+  
   // Calculate chart data
   const mortgagePayoff = data.existingBalance || 0;
-  const equityReserve = (data.homeValue || 0) - (data.principalLimit || 0);
+  const equityReserve = (data.homeValue || 0) - displayPrincipalLimit;
 
   // EquityPower pie chart data - no line of credit, so all proceeds available at closing
   const equityPowerPieData = [
     { name: 'Mortgage Payoff', value: mortgagePayoff, color: '#EAB308' },
-    { name: 'Available at Closing', value: (data.netProceeds || 0) * 0.5, color: '#22C55E' }, // 50% total (10% + 40%)
-    { name: 'Equity Reserve', value: equityReserve, color: '#1e293b' },
+    { name: 'Available at Closing', value: (equityPowerResult.netProceeds || 0) * 0.5, color: '#22C55E' }, // 50% total (10% + 40%)
+    { name: 'Equity Reserve', value: (data.homeValue || 0) - (equityPowerResult.principalLimit || 0), color: '#1e293b' },
   ];
 
   // Traditional HECM pie chart data - includes line of credit features
   const hecmPieData = [
     { name: 'Mortgage Payoff', value: mortgagePayoff, color: '#EAB308' },
-    { name: 'Available at 12 Months', value: (data.netProceeds || 0) * 0.4, color: '#84CC16' },
-    { name: 'Available at Closing', value: (data.netProceeds || 0) * 0.1, color: '#22C55E' },
-    { name: 'Equity Reserve', value: equityReserve, color: '#1e293b' },
+    { name: 'Available at 12 Months', value: (hecmResult.netProceeds || 0) * 0.4, color: '#84CC16' },
+    { name: 'Available at Closing', value: (hecmResult.netProceeds || 0) * 0.1, color: '#22C55E' },
+    { name: 'Equity Reserve', value: (data.homeValue || 0) - (hecmResult.principalLimit || 0), color: '#1e293b' },
   ];
 
-  // Projected credit line growth data
+  // Projected credit line growth data (HECM only)
   const currentAge = data.effectiveAge;
   const lineChartData = [
-    { age: `Age ${currentAge}`, value: data.netProceeds || 0 },
-    { age: `Age ${currentAge + 5}`, value: ((data.netProceeds || 0) * 1.35) },
-    { age: `Age ${currentAge + 10}`, value: ((data.netProceeds || 0) * 1.82) },
-    { age: `Age ${currentAge + 15}`, value: ((data.netProceeds || 0) * 2.46) },
-    { age: `Age ${currentAge + 20}`, value: ((data.netProceeds || 0) * 3.32) },
+    { age: `Age ${currentAge}`, value: hecmResult.netProceeds || 0 },
+    { age: `Age ${currentAge + 5}`, value: ((hecmResult.netProceeds || 0) * 1.35) },
+    { age: `Age ${currentAge + 10}`, value: ((hecmResult.netProceeds || 0) * 1.82) },
+    { age: `Age ${currentAge + 15}`, value: ((hecmResult.netProceeds || 0) * 2.46) },
+    { age: `Age ${currentAge + 20}`, value: ((hecmResult.netProceeds || 0) * 3.32) },
   ];
 
   return (
@@ -216,14 +237,14 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
               </div>
               <div className="bg-card/50 rounded-xl p-4">
                 <p className="text-sm text-muted-foreground mb-1">Principal Limit</p>
-                <p className="text-2xl font-bold tracking-tight tabular-nums">
-                  {formatCurrency(data.principalLimit || 0)}
+                <p className="text-2xl font-bold tracking-tight tabular-nums" data-testid="text-principal-limit">
+                  {formatCurrency(displayPrincipalLimit)}
                 </p>
               </div>
               <div className="bg-card/50 rounded-xl p-4 ring-2 ring-chart-4 ring-offset-2 ring-offset-background">
                 <p className="text-sm text-muted-foreground mb-1">Estimated Net Proceeds</p>
-                <p className="text-3xl font-bold tracking-tight tabular-nums text-chart-4">
-                  {formatCurrency(data.netProceeds || 0)}
+                <p className="text-3xl font-bold tracking-tight tabular-nums text-chart-4" data-testid="text-net-proceeds">
+                  {formatCurrency(displayNetProceeds)}
                 </p>
               </div>
             </div>
@@ -260,10 +281,10 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
           />
         </div>
 
-        <Tabs defaultValue="equitypower" className="w-full">
+        <Tabs defaultValue="equitypower" className="w-full" onValueChange={(value) => setSelectedProduct(value as 'equitypower' | 'traditional')}>
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="equitypower">EQUITYPOWER</TabsTrigger>
-            <TabsTrigger value="traditional">TRADITIONAL HECM</TabsTrigger>
+            <TabsTrigger value="equitypower" data-testid="tab-equitypower">EQUITYPOWER</TabsTrigger>
+            <TabsTrigger value="traditional" data-testid="tab-traditional">TRADITIONAL HECM</TabsTrigger>
           </TabsList>
           
           <TabsContent value="equitypower" className="space-y-8">
@@ -375,7 +396,7 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
                 </LineChart>
               </ResponsiveContainer>
               <p className="text-sm text-muted-foreground mt-4 text-center">
-                Traditional HECM credit line growth projections based on current rates and your PLF of {formatPercentage(data.plf || 0)}. 
+                Traditional HECM credit line growth projections based on current rates and your PLF of {formatPercentage(hecmResult.plf || 0)}. 
                 A Reverse Mortgage Consultant will provide detailed HECM illustrations.
               </p>
             </div>
