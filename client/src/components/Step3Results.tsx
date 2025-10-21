@@ -19,6 +19,7 @@ interface Step3ResultsProps {
     principalLimit?: number;
     netProceeds?: number;
     plf?: number;
+    minAge?: number;
   };
   applicantAge: number;
   spouseAge?: number;
@@ -41,8 +42,8 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
                   Not Eligible at This Time
                 </h2>
                 <p className="text-muted-foreground">
-                  Based on the information provided, you do not currently qualify for a traditional reverse mortgage. 
-                  The minimum age requirement is 55 years old.
+                  Based on the information provided, you do not currently qualify for a reverse mortgage in your state. 
+                  The minimum age requirement is {data.minAge || 55} years old.
                 </p>
               </div>
               

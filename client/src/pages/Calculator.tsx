@@ -44,7 +44,8 @@ export default function Calculator() {
       step1Data!.homeValue,
       step1Data!.applicantAge,
       step1Data!.existingBalance || 0,
-      step1Data!.spouseAge || undefined
+      step1Data!.spouseAge || undefined,
+      step1Data!.state
     );
 
     console.log('Calculation result:', result);
@@ -58,6 +59,7 @@ export default function Calculator() {
       formData.append('form-name', 'contact');
       
       // Step 1 data
+      formData.append('propertyState', step1Data!.state);
       formData.append('homeValue', step1Data!.homeValue.toString());
       formData.append('applicantAge', step1Data!.applicantAge.toString());
       formData.append('existingBalance', (step1Data!.existingBalance || 0).toString());

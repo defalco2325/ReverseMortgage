@@ -12,10 +12,19 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Lock } from "lucide-react";
 import InfoTooltip from "./InfoTooltip";
+import { LENDING_STATES } from "@/lib/config";
 
 const step1Schema = z.object({
+  state: z.string().min(1, "Please select your state"),
   homeValue: z.number().min(50000, "Home value must be at least $50,000"),
   applicantAge: z.number().min(18, "Age must be at least 18").max(120, "Age must be valid"),
   existingBalance: z.number().min(0, "Balance cannot be negative").optional().or(z.literal(0)),
@@ -33,6 +42,7 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
   const form = useForm<Step1Data>({
     resolver: zodResolver(step1Schema),
     defaultValues: {
+      state: initialData?.state || "",
       homeValue: initialData?.homeValue || undefined,
       applicantAge: initialData?.applicantAge || undefined,
       existingBalance: initialData?.existingBalance || undefined,
@@ -54,6 +64,36 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onNext)} className="space-y-4" data-testid="form-step1">
         <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center justify-between gap-2">
+                  <FormLabel className="text-sm font-normal text-card-foreground">
+                    Property state<span className="text-destructive">*</span>
+                  </FormLabel>
+                  <InfoTooltip content="Select the state where your property is located. We currently lend in select states." />
+                </div>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-12 text-base border-input" data-testid="select-state">
+                      <SelectValue placeholder="Select your state" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {LENDING_STATES.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="homeValue"

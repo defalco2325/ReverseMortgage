@@ -122,10 +122,33 @@ export const EQUITYPOWER_PLF_TABLE: Record<number, number> = {
 // Legacy PLF_TABLE for backwards compatibility (defaults to HECM)
 export const PLF_TABLE = HECM_PLF_TABLE;
 
+// State lending configuration
+export const LENDING_STATES = [
+  'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'ID', 'MD', 'MS', 
+  'NJ', 'NV', 'NY', 'OR', 'PA', 'SC', 'TX', 'VA', 'WA'
+] as const;
+
+export type LendingState = typeof LENDING_STATES[number];
+
+// State-specific age requirements for EquityPower
+export const STATE_AGE_REQUIREMENTS: Record<string, number> = {
+  NY: 60,
+  WA: 60,
+  TX: 62,
+  NC: 62,
+  // All other states default to 55
+};
+
+// Get minimum age for EquityPower based on state
+export function getEquityPowerMinAge(state?: string): number {
+  if (!state) return 55;
+  return STATE_AGE_REQUIREMENTS[state] || 55;
+}
+
 // PLF configuration
 export const PLF_CONFIG = {
   MIN_AGE: 55,
-  MIN_AGE_ESTIMATE: 62,
+  MIN_AGE_ESTIMATE: 62, // HECM always requires 62
   HECM_MAX_PLF: 0.716, // HECM PLF table maximum (ages 97-100)
   EQUITYPOWER_MAX_PLF: 0.5733, // EquityPower PLF table maximum (ages 89-100)
 };
@@ -135,18 +158,23 @@ export function calculateEstimate(
   homeValue: number,
   applicantAge: number,
   existingBalance: number,
-  spouseAge?: number
+  spouseAge?: number,
+  state?: string
 ) {
   const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
   
   // Ensure existingBalance defaults to 0 if not provided
   const balance = existingBalance || 0;
   
-  // No Match: Under 55
-  if (effectiveAge < PLF_CONFIG.MIN_AGE) {
+  // Get state-specific minimum age for EquityPower
+  const minAge = getEquityPowerMinAge(state);
+  
+  // No Match: Under minimum age for state
+  if (effectiveAge < minAge) {
     return {
       outcome: 'no-match' as const,
       effectiveAge,
+      minAge,
     };
   }
   

@@ -49,7 +49,8 @@ export default function CalculatorSection() {
       step1Data!.homeValue,
       step1Data!.applicantAge,
       step1Data!.existingBalance || 0,
-      step1Data!.spouseAge || undefined
+      step1Data!.spouseAge || undefined,
+      step1Data!.state
     );
 
     console.log('Calculation result:', result);
