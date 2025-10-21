@@ -4,7 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { formatCurrency } from "@/lib/config";
+import { formatCurrency, calculateHECMEstimate, calculateEquityPowerEstimate } from "@/lib/config";
 import { CheckCircle, XCircle } from "lucide-react";
 
 interface ComparisonTableProps {
@@ -12,18 +12,32 @@ interface ComparisonTableProps {
   onOpenChange: (open: boolean) => void;
   data: {
     homeValue: number;
-    principalLimit: number;
-    netProceeds: number;
+    applicantAge: number;
+    existingBalance: number;
+    spouseAge?: number;
   };
 }
 
 export default function ComparisonTable({ open, onOpenChange, data }: ComparisonTableProps) {
-  // Calculate values for each product
-  const hecmTotalProceeds = data.netProceeds;
-  const hecmAtClosing = data.netProceeds * 0.1; // 10% at closing for HECM
+  // Calculate values for each product using separate PLF tables
+  const hecmEstimate = calculateHECMEstimate(
+    data.homeValue,
+    data.applicantAge,
+    data.existingBalance,
+    data.spouseAge
+  );
+  const equityPowerEstimate = calculateEquityPowerEstimate(
+    data.homeValue,
+    data.applicantAge,
+    data.existingBalance,
+    data.spouseAge
+  );
   
-  const equityPowerTotalProceeds = data.netProceeds;
-  const equityPowerAtClosing = data.netProceeds * 0.5; // 50% at closing for EquityPower
+  const hecmTotalProceeds = hecmEstimate.netProceeds;
+  const hecmAtClosing = hecmEstimate.netProceeds * 0.1; // 10% at closing for HECM
+  
+  const equityPowerTotalProceeds = equityPowerEstimate.netProceeds;
+  const equityPowerAtClosing = equityPowerEstimate.netProceeds * 0.5; // 50% at closing for EquityPower
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

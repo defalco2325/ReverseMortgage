@@ -20,10 +20,12 @@ interface Step3ResultsProps {
     netProceeds?: number;
     plf?: number;
   };
+  applicantAge: number;
+  spouseAge?: number;
   onRestart: () => void;
 }
 
-export default function Step3Results({ outcome, data, onRestart }: Step3ResultsProps) {
+export default function Step3Results({ outcome, data, applicantAge, spouseAge, onRestart }: Step3ResultsProps) {
   const [showComparison, setShowComparison] = useState(false);
 
   if (outcome === 'no-match') {
@@ -251,8 +253,9 @@ export default function Step3Results({ outcome, data, onRestart }: Step3ResultsP
             onOpenChange={setShowComparison}
             data={{
               homeValue: data.homeValue || 0,
-              principalLimit: data.principalLimit || 0,
-              netProceeds: data.netProceeds || 0,
+              applicantAge: applicantAge,
+              existingBalance: data.existingBalance || 0,
+              spouseAge: spouseAge,
             }}
           />
         </div>

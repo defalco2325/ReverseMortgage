@@ -161,6 +161,8 @@ export default function CalculatorSection() {
               <Step3Results
                 outcome={estimate.outcome}
                 data={estimate}
+                applicantAge={step1Data!.applicantAge}
+                spouseAge={step1Data!.spouseAge}
                 onRestart={handleRestart}
               />
             </div>
