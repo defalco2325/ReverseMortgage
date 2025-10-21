@@ -91,7 +91,7 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
                   <Badge className="text-xs bg-chart-4 hover:bg-chart-4">Ages 55-61</Badge>
                 </div>
                 <p className="text-muted-foreground">
-                  Based on your information, here's your estimated reverse mortgage benefit.
+                  Based on the information you inputted, you may qualify for our EquityPower Reverse Mortgage!
                 </p>
               </div>
 
@@ -108,13 +108,7 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
                     {formatCurrency(data.existingBalance || 0)}
                   </p>
                 </div>
-                <div className="bg-card/50 rounded-xl p-4">
-                  <p className="text-sm text-muted-foreground mb-1">Principal Limit</p>
-                  <p className="text-2xl font-bold tracking-tight tabular-nums">
-                    {formatCurrency(data.principalLimit || 0)}
-                  </p>
-                </div>
-                <div className="bg-card/50 rounded-xl p-4 ring-2 ring-chart-4 ring-offset-2 ring-offset-background">
+                <div className="bg-card/50 rounded-xl p-4 ring-2 ring-chart-4 ring-offset-2 ring-offset-background sm:col-span-2">
                   <p className="text-sm text-muted-foreground mb-1">Estimated Net Proceeds</p>
                   <p className="text-3xl font-bold tracking-tight tabular-nums text-chart-4">
                     {formatCurrency(data.netProceeds || 0)}
