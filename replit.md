@@ -32,11 +32,13 @@ Preferred communication style: Simple, everyday language.
 
 **Product Comparison**: Interactive comparison table (ComparisonTable component) accessible via "Compare Your Options" button on results page. Features:
 - Side-by-side comparison of Traditional HECM vs EquityPower products
-- Dynamic data from calculator results (displays actual estimated proceeds)
+- **Separate PLF calculations**: Each product uses its own PLF table to show different estimated proceeds
+- Real-time calculations based on user's age, home value, and existing balance
 - Responsive dialog with scrollable content
-- Comparison categories: Lending Limits, Estimated Proceeds, Line of Credit Growth, Minimum Age, Closing Costs
+- Comparison categories: Lending Limits, Estimated Proceeds Available at Closing, Line of Credit Growth, Minimum Age, Closing Costs
 - Footnoted explanations for product features
-- Calculations: HECM shows 10% of net proceeds available at closing, EquityPower shows 50%
+- Distribution differences: HECM shows 10% of net proceeds available at closing, EquityPower shows 50%
+- EquityPower typically shows higher total proceeds for ages 55-88 due to higher PLF values
 
 **Routing**: Wouter for lightweight client-side routing with SPA configuration for Netlify deployment.
 
@@ -47,16 +49,32 @@ Preferred communication style: Simple, everyday language.
 - Ages 55-61: Private Lending (PLF 35.99%-37.54%)
 - Ages 62+: HECM Estimate (PLF 35.7%-71.6% capped at age 97+)
 
-**PLF (Principal Limit Factor) Calculation**: Uses an exact age-based lookup table with precise PLF values for each age from 55-100. The system accounts for spouse age (using the younger age when applicable) and retrieves the corresponding PLF from the table to determine principal limits and net proceeds.
+**PLF (Principal Limit Factor) Calculation**: The system uses **two separate PLF lookup tables** for HECM and EquityPower products, each with precise PLF values for each age from 55-100. The system accounts for spouse age (using the younger age when applicable) and retrieves the corresponding PLF from the appropriate table to determine principal limits and net proceeds.
 
-**PLF Data Source**:
+**HECM PLF Table** (Traditional FHA HECM):
 - Ages 55-61 (Private Lending): Custom PLF values (35.99%-37.54%)
 - Ages 62-100 (HECM): Official HECM PLF table updated 2025-10-21 from `HECM PLF 10-21-25.xlsx`
   - Starting at 35.7% for age 62
   - Increasing progressively with age
   - Maximum 71.6% for ages 97-100
 
-**Calculation Formula**:
+**EquityPower PLF Table** (Proprietary Product):
+- Ages 55-100: EquityPower proprietary PLF values updated 2025-10-21
+  - Starting at 35.99% for age 55
+  - Age 62: 37.83%
+  - Age 65: 39.19%
+  - Age 70: 42.00%
+  - Age 80: 50.83%
+  - Age 90+: Maximum 57.33%
+  - Generally higher PLFs than HECM for ages 55-88, providing more proceeds
+  - Lower PLFs than HECM for ages 90+ (capped at 57.33% vs HECM's 71.6%)
+
+**Calculation Functions**:
+- `calculateHECMEstimate()`: Uses HECM PLF table for Traditional HECM calculations
+- `calculateEquityPowerEstimate()`: Uses EquityPower PLF table for proprietary product calculations
+- `calculateEstimate()`: Legacy function defaulting to HECM table for backwards compatibility
+
+**Calculation Formula** (applies to both products):
 - Principal Limit = Home Value × PLF
 - Net Proceeds = Principal Limit - Existing Mortgage Balance (defaults to 0 if not provided)
 
