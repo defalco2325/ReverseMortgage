@@ -14,10 +14,10 @@ export const APP_CONFIG = {
   USE_NETLIFY_FORMS: false,
 };
 
-// PLF (Principal Limit Factor) lookup table based on age
+// HECM PLF (Principal Limit Factor) lookup table based on age
 // Ages 55-61: Private Lending PLF values
 // Ages 62-100: HECM PLF values (Updated: 2025-10-21 from HECM PLF 10-21-25.xlsx)
-export const PLF_TABLE: Record<number, number> = {
+export const HECM_PLF_TABLE: Record<number, number> = {
   // Private Lending (55-61)
   55: 0.3599,
   56: 0.3618,
@@ -68,11 +68,66 @@ export const PLF_TABLE: Record<number, number> = {
   100: 0.716,
 };
 
+// EquityPower PLF (Principal Limit Factor) lookup table based on age
+// Ages 55-100: EquityPower proprietary PLF values (Updated: 2025-10-21)
+export const EQUITYPOWER_PLF_TABLE: Record<number, number> = {
+  55: 0.3599,
+  56: 0.3618,
+  57: 0.3638,
+  58: 0.3657,
+  59: 0.3696,
+  60: 0.3725,
+  61: 0.3754,
+  62: 0.3783,
+  63: 0.3822,
+  64: 0.3870,
+  65: 0.3919,
+  66: 0.3967,
+  67: 0.4026,
+  68: 0.4074,
+  69: 0.4132,
+  70: 0.4200,
+  71: 0.4268,
+  72: 0.4346,
+  73: 0.4433,
+  74: 0.4530,
+  75: 0.4627,
+  76: 0.4734,
+  77: 0.4811,
+  78: 0.4889,
+  79: 0.4986,
+  80: 0.5083,
+  81: 0.5199,
+  82: 0.5442,
+  83: 0.5529,
+  84: 0.5626,
+  85: 0.5655,
+  86: 0.5684,
+  87: 0.5704,
+  88: 0.5723,
+  89: 0.5733,
+  90: 0.5733,
+  91: 0.5733,
+  92: 0.5733,
+  93: 0.5733,
+  94: 0.5733,
+  95: 0.5733,
+  96: 0.5733,
+  97: 0.5733,
+  98: 0.5733,
+  99: 0.5733,
+  100: 0.5733,
+};
+
+// Legacy PLF_TABLE for backwards compatibility (defaults to HECM)
+export const PLF_TABLE = HECM_PLF_TABLE;
+
 // PLF configuration
 export const PLF_CONFIG = {
   MIN_AGE: 55,
   MIN_AGE_ESTIMATE: 62,
-  MAX_PLF: 0.716, // Updated to match HECM PLF table maximum (ages 97-100)
+  HECM_MAX_PLF: 0.716, // HECM PLF table maximum (ages 97-100)
+  EQUITYPOWER_MAX_PLF: 0.5733, // EquityPower PLF table maximum (ages 89-100)
 };
 
 // Calculate PLF and estimate
@@ -97,7 +152,7 @@ export function calculateEstimate(
   
   // Get PLF from table (cap at 100 for ages over 100)
   const ageForLookup = Math.min(effectiveAge, 100);
-  const plf = PLF_TABLE[ageForLookup] || PLF_CONFIG.MAX_PLF;
+  const plf = PLF_TABLE[ageForLookup] || PLF_CONFIG.HECM_MAX_PLF;
   
   const principalLimit = homeValue * plf;
   const netProceeds = Math.max(0, principalLimit - balance);
@@ -122,6 +177,50 @@ export function calculateEstimate(
     plf,
     homeValue,
     existingBalance: balance,
+    principalLimit,
+    netProceeds,
+  };
+}
+
+// Calculate HECM estimate with HECM PLF table
+export function calculateHECMEstimate(
+  homeValue: number,
+  applicantAge: number,
+  existingBalance: number,
+  spouseAge?: number
+) {
+  const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
+  const balance = existingBalance || 0;
+  const ageForLookup = Math.min(effectiveAge, 100);
+  const plf = HECM_PLF_TABLE[ageForLookup] || PLF_CONFIG.HECM_MAX_PLF;
+  
+  const principalLimit = homeValue * plf;
+  const netProceeds = Math.max(0, principalLimit - balance);
+  
+  return {
+    plf,
+    principalLimit,
+    netProceeds,
+  };
+}
+
+// Calculate EquityPower estimate with EquityPower PLF table
+export function calculateEquityPowerEstimate(
+  homeValue: number,
+  applicantAge: number,
+  existingBalance: number,
+  spouseAge?: number
+) {
+  const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
+  const balance = existingBalance || 0;
+  const ageForLookup = Math.min(effectiveAge, 100);
+  const plf = EQUITYPOWER_PLF_TABLE[ageForLookup] || PLF_CONFIG.EQUITYPOWER_MAX_PLF;
+  
+  const principalLimit = homeValue * plf;
+  const netProceeds = Math.max(0, principalLimit - balance);
+  
+  return {
+    plf,
     principalLimit,
     netProceeds,
   };
