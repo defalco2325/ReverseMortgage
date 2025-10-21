@@ -81,19 +81,17 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
   if (outcome === 'private') {
     return (
       <div className="space-y-6" data-testid="results-private">
-        <Card className="p-8 border-l-4 border-l-chart-5">
+        <Card className="p-8 border-l-4 border-l-chart-4">
           <div className="flex items-start gap-4">
-            <div className="w-8 h-8 rounded-full bg-chart-5/20 flex items-center justify-center flex-shrink-0 mt-1">
-              <AlertCircle className="w-5 h-5 text-chart-5" />
-            </div>
+            <CheckCircle className="w-8 h-8 text-chart-4 flex-shrink-0 mt-1" />
             <div className="space-y-4 flex-1">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <h2 className="text-2xl font-bold">Private Lending Option Available</h2>
-                  <Badge variant="secondary" className="text-xs">Ages 55-61</Badge>
+                  <h2 className="text-2xl font-bold">You may be eligible for EquityPower!</h2>
+                  <Badge className="text-xs bg-chart-4 hover:bg-chart-4">Ages 55-61</Badge>
                 </div>
                 <p className="text-muted-foreground">
-                  You qualify for our private reverse mortgage program designed for borrowers aged 55-61.
+                  Based on your information, here's your estimated reverse mortgage benefit.
                 </p>
               </div>
 
@@ -111,25 +109,35 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
                   </p>
                 </div>
                 <div className="bg-card/50 rounded-xl p-4">
-                  <p className="text-sm text-muted-foreground mb-1">Principal Limit Factor</p>
+                  <p className="text-sm text-muted-foreground mb-1">Principal Limit</p>
                   <p className="text-2xl font-bold tracking-tight tabular-nums">
-                    {formatPercentage(data.plf || 0)}
+                    {formatCurrency(data.principalLimit || 0)}
                   </p>
                 </div>
-                <div className="bg-card/50 rounded-xl p-4">
+                <div className="bg-card/50 rounded-xl p-4 ring-2 ring-chart-4 ring-offset-2 ring-offset-background">
                   <p className="text-sm text-muted-foreground mb-1">Estimated Net Proceeds</p>
-                  <p className="text-2xl font-bold tracking-tight tabular-nums text-chart-5">
+                  <p className="text-3xl font-bold tracking-tight tabular-nums text-chart-4">
                     {formatCurrency(data.netProceeds || 0)}
                   </p>
                 </div>
               </div>
 
               <div className="bg-card/50 rounded-xl p-6 space-y-3">
-                <h4 className="font-semibold text-lg">Next Steps</h4>
-                <p className="text-sm text-muted-foreground">
-                  Our private lending specialists will contact you to discuss terms, rates, and complete your application. 
-                  This program offers flexible options tailored to your unique situation.
-                </p>
+                <h4 className="font-semibold text-lg">What Happens Next?</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground mb-4">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                    <span>A licensed reverse mortgage specialist will contact you within 24 hours</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                    <span>Review your personalized EquityPower options and ask any questions</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 text-chart-4 mt-0.5 flex-shrink-0" />
+                    <span>Complete your application with guidance every step of the way</span>
+                  </li>
+                </ul>
                 <div className="pt-2">
                   <Button asChild className="w-full sm:w-auto" data-testid="button-call-private">
                     <a href={APP_CONFIG.PHONE_CTA}>
