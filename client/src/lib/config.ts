@@ -84,6 +84,9 @@ export function calculateEstimate(
 ) {
   const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
   
+  // Ensure existingBalance defaults to 0 if not provided
+  const balance = existingBalance || 0;
+  
   // No Match: Under 55
   if (effectiveAge < PLF_CONFIG.MIN_AGE) {
     return {
@@ -97,7 +100,7 @@ export function calculateEstimate(
   const plf = PLF_TABLE[ageForLookup] || PLF_CONFIG.MAX_PLF;
   
   const principalLimit = homeValue * plf;
-  const netProceeds = Math.max(0, principalLimit - existingBalance);
+  const netProceeds = Math.max(0, principalLimit - balance);
   
   // Private: 55-61
   if (effectiveAge < PLF_CONFIG.MIN_AGE_ESTIMATE) {
@@ -106,7 +109,7 @@ export function calculateEstimate(
       effectiveAge,
       plf,
       homeValue,
-      existingBalance,
+      existingBalance: balance,
       principalLimit,
       netProceeds,
     };
@@ -118,7 +121,7 @@ export function calculateEstimate(
     effectiveAge,
     plf,
     homeValue,
-    existingBalance,
+    existingBalance: balance,
     principalLimit,
     netProceeds,
   };

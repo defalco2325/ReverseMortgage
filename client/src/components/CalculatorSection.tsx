@@ -48,7 +48,7 @@ export default function CalculatorSection() {
     const result = calculateEstimate(
       step1Data!.homeValue,
       step1Data!.applicantAge,
-      step1Data!.existingBalance,
+      step1Data!.existingBalance || 0,
       step1Data!.spouseAge || undefined
     );
 
