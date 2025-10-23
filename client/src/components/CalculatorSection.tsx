@@ -55,37 +55,53 @@ export default function CalculatorSection() {
 
     console.log('Calculation result:', result);
 
-    // Submit to Netlify function
+    // Submit to Netlify Forms
     try {
-      const payload = {
-        step1: step1Data,
-        step2: data,
-        estimate: result,
-        meta: {
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent,
-        }
-      };
-
-      const response = await fetch('/.netlify/functions/lead-intake', {
+      const formData = new URLSearchParams();
+      formData.append('form-name', 'contact');
+      
+      // Step 1 data
+      formData.append('propertyState', step1Data!.state);
+      formData.append('homeValue', step1Data!.homeValue.toString());
+      formData.append('applicantAge', step1Data!.applicantAge.toString());
+      formData.append('existingBalance', (step1Data!.existingBalance || 0).toString());
+      formData.append('spouseAge', step1Data!.spouseAge ? step1Data!.spouseAge.toString() : '');
+      
+      // Step 2 data
+      formData.append('reason', data.reason);
+      formData.append('firstName', data.firstName);
+      formData.append('lastName', data.lastName);
+      formData.append('address', data.address);
+      formData.append('city', data.city);
+      formData.append('state', data.state);
+      formData.append('zipCode', data.zipCode);
+      formData.append('phone', data.phone);
+      formData.append('email', data.email);
+      formData.append('_botField', data._botField || '');
+      
+      // Results data
+      formData.append('outcome', result.outcome);
+      formData.append('principalLimit', (result.principalLimit || 0).toString());
+      formData.append('netProceeds', (result.netProceeds || 0).toString());
+      formData.append('effectiveAge', (result.effectiveAge || 0).toString());
+      formData.append('plf', (result.plf || 0).toString());
+      
+      console.log('Submitting to Netlify Forms:', Object.fromEntries(formData));
+      
+      const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
       });
 
       if (!response.ok) {
         throw new Error('Submission failed');
       }
 
-      console.log('Lead submitted successfully');
+      console.log('Form submitted to Netlify Forms successfully');
     } catch (error) {
-      console.error('Failed to submit lead:', error);
-      // Show non-intrusive toast but don't block the user
-      toast({
-        title: "Submission Notice",
-        description: "Your estimate was calculated successfully. Our team will contact you shortly.",
-        variant: "default",
-      });
+      console.error('Failed to submit to Netlify Forms:', error);
+      // Don't block the user experience if submission fails
     }
 
     setEstimate(result);

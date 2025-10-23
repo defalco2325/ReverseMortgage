@@ -95,6 +95,20 @@ export default function Step2Form({ onNext, onBack, initialData }: Step2FormProp
           autoComplete="off"
           {...form.register("_botField")}
         />
+        
+        {/* Hidden fields for Step 1 data - Netlify needs to see all fields */}
+        <input type="hidden" name="propertyState" />
+        <input type="hidden" name="homeValue" />
+        <input type="hidden" name="applicantAge" />
+        <input type="hidden" name="existingBalance" />
+        <input type="hidden" name="spouseAge" />
+        
+        {/* Hidden fields for calculation results */}
+        <input type="hidden" name="outcome" />
+        <input type="hidden" name="principalLimit" />
+        <input type="hidden" name="netProceeds" />
+        <input type="hidden" name="effectiveAge" />
+        <input type="hidden" name="plf" />
 
         <div className="space-y-6">
           <FormField
