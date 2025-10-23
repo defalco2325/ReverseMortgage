@@ -1,4 +1,4 @@
-# Nationwide Equities - Reverse Mortgage Calculator
+# Nationwide Equities - Reverse Mortgage Calculator 😊
 
 A production-ready, fully responsive landing page and 3-step reverse mortgage calculator built for Nationwide Equities. Features include lead intake via Netlify Functions, comprehensive eligibility logic, and professional NWE branding.
 
