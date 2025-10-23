@@ -14,6 +14,8 @@ export default function Footer() {
               src={logoImage} 
               alt={APP_CONFIG.BRAND_NAME}
               className="h-[109px] w-auto"
+              width="360"
+              height="236"
             />
           </div>
           <p className="text-gray-700 font-medium mb-2">

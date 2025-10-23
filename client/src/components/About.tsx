@@ -1,5 +1,5 @@
 import { CheckCircle } from "lucide-react";
-import seniorCoupleImage from "@assets/stock_images/elegant_senior_coupl_660c6135.webp";
+import seniorCoupleImage from "@assets/stock_images/elegant_senior_coupl_660c6135_optimized.webp";
 
 export default function About() {
   const benefits = [
@@ -45,6 +45,8 @@ export default function About() {
                 src={seniorCoupleImage}
                 alt="Happy senior couple enjoying retirement at home"
                 className="w-full h-full object-cover"
+                width="800"
+                height="534"
               />
             </div>
           </div>

@@ -39,6 +39,8 @@ export default function NavBar({ onNavigate }: NavBarProps) {
                 src={logoImage} 
                 alt={APP_CONFIG.BRAND_NAME}
                 className="h-[95px] w-auto"
+                width="360"
+                height="236"
               />
             </button>
           </div>
