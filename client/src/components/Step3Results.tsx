@@ -80,6 +80,17 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
   }
 
   if (outcome === 'private') {
+    // Calculate EquityPower pie chart data for private lending
+    const mortgagePayoff = data.existingBalance || 0;
+    const availableAtClosing = (data.netProceeds || 0) * 0.5; // 50% available at closing
+    const equityReserve = (data.homeValue || 0) - (data.principalLimit || 0);
+    
+    const privatePieData = [
+      { name: 'Mortgage Payoff', value: mortgagePayoff, color: '#EAB308' },
+      { name: 'Available at Closing', value: availableAtClosing, color: '#22C55E' },
+      { name: 'Equity Reserve', value: equityReserve, color: '#1e293b' },
+    ];
+
     return (
       <div className="space-y-6" data-testid="results-private">
         <Card className="p-8 border-l-4 border-l-chart-4">
@@ -87,10 +98,7 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
             <CheckCircle className="w-8 h-8 text-chart-4 flex-shrink-0 mt-1" />
             <div className="space-y-4 flex-1">
               <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h2 className="text-2xl font-bold">You may be eligible for EquityPower!</h2>
-                  <Badge className="text-xs bg-chart-4 hover:bg-chart-4">Ages 55-61</Badge>
-                </div>
+                <h2 className="text-2xl font-bold mb-2">You may be eligible for EquityPower!</h2>
                 <p className="text-muted-foreground">
                   Based on the information you inputted, you may qualify for our EquityPower Reverse Mortgage!
                 </p>
@@ -114,6 +122,33 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
                   <p className="text-3xl font-bold tracking-tight tabular-nums text-chart-4">
                     {formatCurrency(data.netProceeds || 0)}
                   </p>
+                </div>
+              </div>
+
+              {/* EquityPower Pie Chart */}
+              <div className="bg-card/50 rounded-xl p-6">
+                <h4 className="font-semibold text-lg mb-4">EquityPower Benefit Breakdown</h4>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={privatePieData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {privatePieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </div>
               </div>
 
