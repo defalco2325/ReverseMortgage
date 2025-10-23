@@ -161,13 +161,19 @@ export function calculateEstimate(
   spouseAge?: number,
   state?: string
 ) {
-  const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
-  
   // Ensure existingBalance defaults to 0 if not provided
   const balance = existingBalance || 0;
   
   // Get state-specific minimum age for EquityPower
   const minAge = getEquityPowerMinAge(state);
+  
+  // If spouse exists and qualifies (meets min age), use younger age
+  // If spouse exists but doesn't qualify, default to older borrower (applicant)
+  // If no spouse, use applicant age
+  let effectiveAge = applicantAge;
+  if (spouseAge && spouseAge >= minAge && spouseAge < applicantAge) {
+    effectiveAge = spouseAge;
+  }
   
   // No Match: Under minimum age for state
   if (effectiveAge < minAge) {
@@ -217,8 +223,17 @@ export function calculateHECMEstimate(
   existingBalance: number,
   spouseAge?: number
 ) {
-  const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
   const balance = existingBalance || 0;
+  
+  // HECM requires minimum age of 62
+  const minAge = PLF_CONFIG.MIN_AGE_ESTIMATE;
+  
+  // If spouse exists and qualifies (age 62+), use younger age
+  // If spouse exists but doesn't qualify, default to older borrower (applicant)
+  let effectiveAge = applicantAge;
+  if (spouseAge && spouseAge >= minAge && spouseAge < applicantAge) {
+    effectiveAge = spouseAge;
+  }
   const ageForLookup = Math.min(effectiveAge, 100);
   const plf = HECM_PLF_TABLE[ageForLookup] || PLF_CONFIG.HECM_MAX_PLF;
   
@@ -237,10 +252,20 @@ export function calculateEquityPowerEstimate(
   homeValue: number,
   applicantAge: number,
   existingBalance: number,
-  spouseAge?: number
+  spouseAge?: number,
+  state?: string
 ) {
-  const effectiveAge = spouseAge && spouseAge < applicantAge ? spouseAge : applicantAge;
   const balance = existingBalance || 0;
+  
+  // Get state-specific minimum age for EquityPower
+  const minAge = getEquityPowerMinAge(state);
+  
+  // If spouse exists and qualifies (meets min age), use younger age
+  // If spouse exists but doesn't qualify, default to older borrower (applicant)
+  let effectiveAge = applicantAge;
+  if (spouseAge && spouseAge >= minAge && spouseAge < applicantAge) {
+    effectiveAge = spouseAge;
+  }
   const ageForLookup = Math.min(effectiveAge, 100);
   const plf = EQUITYPOWER_PLF_TABLE[ageForLookup] || PLF_CONFIG.EQUITYPOWER_MAX_PLF;
   

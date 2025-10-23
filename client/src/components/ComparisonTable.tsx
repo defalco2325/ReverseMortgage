@@ -15,6 +15,7 @@ interface ComparisonTableProps {
     applicantAge: number;
     existingBalance: number;
     spouseAge?: number;
+    state?: string;
   };
 }
 
@@ -30,7 +31,8 @@ export default function ComparisonTable({ open, onOpenChange, data }: Comparison
     data.homeValue,
     data.applicantAge,
     data.existingBalance,
-    data.spouseAge
+    data.spouseAge,
+    data.state
   );
   
   const hecmTotalProceeds = hecmEstimate.netProceeds;

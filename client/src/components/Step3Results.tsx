@@ -23,10 +23,11 @@ interface Step3ResultsProps {
   };
   applicantAge: number;
   spouseAge?: number;
+  state?: string;
   onRestart: () => void;
 }
 
-export default function Step3Results({ outcome, data, applicantAge, spouseAge, onRestart }: Step3ResultsProps) {
+export default function Step3Results({ outcome, data, applicantAge, spouseAge, state, onRestart }: Step3ResultsProps) {
   const [showComparison, setShowComparison] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<'equitypower' | 'traditional'>('equitypower');
 
@@ -200,7 +201,8 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
     data.homeValue || 0,
     applicantAge,
     data.existingBalance || 0,
-    spouseAge
+    spouseAge,
+    state
   );
   
   const hecmResult = calculateHECMEstimate(
@@ -315,6 +317,7 @@ export default function Step3Results({ outcome, data, applicantAge, spouseAge, o
               applicantAge: applicantAge,
               existingBalance: data.existingBalance || 0,
               spouseAge: spouseAge,
+              state: state,
             }}
           />
         </div>

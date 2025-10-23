@@ -180,6 +180,7 @@ export default function CalculatorSection() {
                 data={estimate}
                 applicantAge={step1Data!.applicantAge}
                 spouseAge={step1Data!.spouseAge}
+                state={step1Data!.state}
                 onRestart={handleRestart}
               />
             </div>
