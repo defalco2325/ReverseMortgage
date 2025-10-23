@@ -121,7 +121,7 @@ export default function Step2Form({ onNext, onBack, initialData }: Step2FormProp
                 </FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
-                    <SelectTrigger data-testid="select-reason">
+                    <SelectTrigger data-testid="select-reason" aria-label="Primary Reason for Reverse Mortgage">
                       <SelectValue placeholder="Select a reason" />
                     </SelectTrigger>
                   </FormControl>
@@ -231,7 +231,7 @@ export default function Step2Form({ onNext, onBack, initialData }: Step2FormProp
                   </FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
-                      <SelectTrigger data-testid="select-state">
+                      <SelectTrigger data-testid="select-state" aria-label="State">
                         <SelectValue placeholder="State" />
                       </SelectTrigger>
                     </FormControl>

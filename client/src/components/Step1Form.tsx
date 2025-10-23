@@ -77,7 +77,7 @@ export default function Step1Form({ onNext, initialData }: Step1FormProps) {
                 </div>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
-                    <SelectTrigger className="h-12 text-base border-input" data-testid="select-state">
+                    <SelectTrigger className="h-12 text-base border-input" data-testid="select-state" aria-label="Property state">
                       <SelectValue placeholder="Select your state" />
                     </SelectTrigger>
                   </FormControl>
