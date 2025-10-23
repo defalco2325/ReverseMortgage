@@ -16,3 +16,40 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export const leadSubmissionSchema = z.object({
+  step1: z.object({
+    homeValue: z.number(),
+    applicantAge: z.number(),
+    existingBalance: z.number().optional(),
+    spouseAge: z.number().optional(),
+    state: z.string(),
+  }),
+  step2: z.object({
+    reason: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    address: z.string(),
+    city: z.string(),
+    state: z.string(),
+    zipCode: z.string(),
+    phone: z.string(),
+    email: z.string(),
+    _botField: z.string().optional(),
+  }),
+  estimate: z.object({
+    outcome: z.string(),
+    effectiveAge: z.number().optional(),
+    plf: z.number().optional(),
+    principalLimit: z.number().optional(),
+    netProceeds: z.number().optional(),
+  }),
+  meta: z.object({
+    timestamp: z.string(),
+    userAgent: z.string(),
+  }),
+});
+
+export type LeadSubmission = z.infer<typeof leadSubmissionSchema> & {
+  id: string;
+};
