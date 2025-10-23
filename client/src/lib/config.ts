@@ -125,7 +125,7 @@ export const PLF_TABLE = HECM_PLF_TABLE;
 // State lending configuration
 export const LENDING_STATES = [
   'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'ID', 'MD', 'MS', 
-  'NJ', 'NV', 'NY', 'OR', 'PA', 'SC', 'TX', 'VA', 'WA'
+  'NC', 'NJ', 'NV', 'NY', 'OR', 'PA', 'SC', 'TX', 'VA', 'WA'
 ] as const;
 
 export type LendingState = typeof LENDING_STATES[number];

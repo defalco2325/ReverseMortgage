@@ -26,9 +26,14 @@ Preferred communication style: Simple, everyday language.
 **Form Management**: React Hook Form with Zod schema validation provides type-safe form handling across the 3-step calculator flow. Each step maintains its own schema and validation rules.
 
 **State Management**: Component-local state for calculator flow management. The calculator progresses through three steps:
-1. Property & Age Information (home value, ages, existing balance)
+1. Property & Age Information (property state, home value, ages, existing balance)
 2. Contact Details (personal information, reason for inquiry)
 3. Results Display (eligibility outcome with estimates)
+
+**Results Visualization**:
+- **Private Lending Results (Ages 55-61)**: EquityPower benefit breakdown pie chart showing Mortgage Payoff, Available at Closing (50% of net proceeds), and Equity Reserve
+- **Full Estimate Results (Ages 62+)**: Interactive tabs with product-specific pie charts and line charts for projected growth
+- All charts use Recharts library with responsive containers and formatted currency tooltips
 
 **Product Comparison**: Interactive comparison features include:
 - **Interactive Tabs on Results Page**: EquityPower and Traditional HECM tabs dynamically update Principal Limit and Net Proceeds values when clicked, allowing real-time comparison
@@ -45,10 +50,19 @@ Preferred communication style: Simple, everyday language.
 
 ### Calculation Logic Architecture
 
-**Eligibility Tiers**:
-- Under 55: No Match (ineligible)
-- Ages 55-61: Private Lending (PLF 35.99%-37.54%)
-- Ages 62+: HECM Estimate (PLF 35.7%-71.6% capped at age 97+)
+**State-Based Eligibility**: The calculator enforces state-specific minimum age requirements:
+- **20 Lending States**: AZ, CA, CO, CT, DC, DE, FL, ID, MD, MS, NC, NJ, NV, NY, OR, PA, SC, TX, VA, WA
+- **State-Specific Age Minimums for EquityPower**:
+  - NY, WA: 60 years minimum
+  - TX, NC: 62 years minimum
+  - All other lending states: 55 years minimum
+- **HECM (Traditional)**: Always requires 62 years minimum regardless of state
+- Property state is a required field in Step 1 of the calculator
+
+**Eligibility Tiers** (based on effective age - youngest borrower/spouse):
+- Under state-specific minimum: No Match (ineligible, shows state-specific minimum age in message)
+- At state minimum but under 62: Private Lending - EquityPower only (PLF 35.99%-42.00%)
+- Ages 62+: Full Estimate - Both HECM and EquityPower options available
 
 **PLF (Principal Limit Factor) Calculation**: The system uses **two separate PLF lookup tables** for HECM and EquityPower products, each with precise PLF values for each age from 55-100. The system accounts for spouse age (using the younger age when applicable) and retrieves the corresponding PLF from the appropriate table to determine principal limits and net proceeds.
 
@@ -92,7 +106,7 @@ Preferred communication style: Simple, everyday language.
 - Hidden HTML form in `client/index.html` for build-time detection by Netlify
 - React form in `Step2Form.tsx` with `data-netlify="true"` and `data-netlify-honeypot="_botField"`
 - Submission handler in `Calculator.tsx` POSTs to "/" with `application/x-www-form-urlencoded` encoding
-- All form fields include: Step 1 data (homeValue, applicantAge, existingBalance, spouseAge), Step 2 data (reason, firstName, lastName, address, city, state, zipCode, phone, email), calculated results (principalLimit, netProceeds, outcome), and honeypot field (_botField)
+- All form fields include: Step 1 data (propertyState, homeValue, applicantAge, existingBalance, spouseAge), Step 2 data (reason, firstName, lastName, address, city, state, zipCode, phone, email), calculated results (principalLimit, netProceeds, outcome), and honeypot field (_botField)
 - Honeypot field for bot detection (hidden from users, submitted as empty string)
 - Form submissions viewable in Netlify dashboard after deployment
 - Email notifications can be configured via Netlify Forms notification settings
