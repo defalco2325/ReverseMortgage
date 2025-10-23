@@ -1,6 +1,6 @@
 import { ShieldCheck, Home } from "lucide-react";
 import { APP_CONFIG } from "@/lib/config";
-import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.png";
+import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.webp";
 import { TermsOfUseModal, PrivacyNoticeModal, LicensingModal } from "@/components/LegalModals";
 
 export default function Footer() {

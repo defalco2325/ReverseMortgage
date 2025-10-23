@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Menu, X } from "lucide-react";
 import { APP_CONFIG } from "@/lib/config";
-import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.png";
+import logoImage from "@assets/Reverse Mortgage Logo_1760557741341.webp";
 
 interface NavBarProps {
   onNavigate: (section: string) => void;
